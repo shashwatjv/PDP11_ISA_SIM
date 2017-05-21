@@ -1,0 +1,15 @@
+all: clean lib compile sim
+
+lib:
+	vlib work
+	vmap work work
+		
+compile:
+	vlog -mfcu Memory.sv RegisterFile.sv InstuctionTrans.sv Instruction_decode.sv PDP11_20.sv LoadMem.sv top.sv
+
+sim:
+	vsim -c -do "run -all" top
+	
+clean:
+	rm -rf work output.log traces/mem_trace.f traces/debug_mem_trace.f traces/load_mem_trace.f	
+	
