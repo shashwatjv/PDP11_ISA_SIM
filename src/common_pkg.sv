@@ -30,6 +30,10 @@ package common_pkg;
 				  ROR,RORB,ROL,ROLB,ASR,ASRB,ASL,ASLB,JMP,SWAB,HALT, NOP} opcode_mnemonic;
 	
 	typedef enum bit {word_op, byte_op} op_size;
+
+	typedef enum bit [2:0] {REG,REG_DEF,A_INCR,A_INCR_DEF,A_DEC,A_DEC_DEF,INDEX,INDEX_DEF} amod_t;
+	typedef bit [2:0] radr_t;
+	typedef bit [7:0] ofst_t;
 	
 	// FILE IO
 	int debug=1, info=1, console=0;
