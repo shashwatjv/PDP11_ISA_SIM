@@ -1,0 +1,31 @@
+# vsim -c -do "run -all" top 
+# Start time: 21:04:13 on May 21,2017
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: Memory.sv(52): (vopt-2250) Function "GetWord" has no return value assignment.
+# ** Warning: Memory.sv(55): (vopt-2250) Function "GetByte" has no return value assignment.
+# ** Warning: Memory.sv(64): (vopt-2250) Function "isBreakpoint" has no return value assignment.
+# ** Warning: RegisterFile.sv(26): (vopt-2250) Function "Read" has no return value assignment.
+# ** Warning: Instruction_decode.sv(36): (vopt-2250) Function "read_mem" has no return value assignment.
+# ** Warning: Instruction_decode.sv(39): (vopt-2250) Function "read_reg" has no return value assignment.
+# //  Questa Sim-64
+# //  Version 10.4c linux_x86_64 Jul 19 2015
+# //
+# //  Copyright 1991-2015 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //  THIS DOCUMENT CONTAINS TRADE SECRETS AND COMMERCIAL OR FINANCIAL
+# //  INFORMATION THAT ARE PRIVILEGED, CONFIDENTIAL, AND EXEMPT FROM
+# //  DISCLOSURE UNDER THE FREEDOM OF INFORMATION ACT, 5 U.S.C. SECTION 552.
+# //  FURTHERMORE, THIS INFORMATION IS PROHIBITED FROM DISCLOSURE UNDER
+# //  THE TRADE SECRETS ACT, 18 U.S.C. SECTION 1905.
+# //
+# Loading sv_std.std
+# Loading work.common_pkg(fast)
+# Loading work.Memory_sv_unit(fast)
+# Loading work.top(fast)
+# run -all
+# End time: 21:04:16 on May 21,2017, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 6

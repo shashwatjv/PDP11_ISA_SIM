@@ -15,7 +15,7 @@ PDP11_20 proc_h;
 initial
 begin
 proc_h = new();
-proc_h.run();
+proc_h.Run();
 end
 
 endmodule

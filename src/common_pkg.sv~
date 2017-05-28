@@ -22,15 +22,13 @@ package common_pkg;
 	typedef logic [7:0] byte_t;
 	typedef enum {R0, R1, R2, R3, R4, R5, SP, PC, PSW} register_t;
 
-	// INSTRUCTION SET RELATED
+	// OPCODE MNEMONICS
 	typedef enum {MOV,MOVB,CMP,CMPB,BIT,BITB,BIC,BICB,BIS,BISB,
 				  ADD,SUB,BR,BNE,BEQ,BGE,BLT,BGT,BLE,BPL,BMI,BHI,
 				  BLOS,BVC,BVS,BCC,BCS,JSR,RTS,CLR,CLRB,COM,COMB,INC,
 				  INCB,DEC,DECB,NEG,NEGB,ADC,ADCB,SBC,SBCB,TST,TSTB,
-				  ROR,RORB,ROL,ROLB,ASR,ASRB,ASL,ASLB,JMP,SWAB,HALT, NOP} opcode_mnemonic;
-	
-	typedef enum bit {word_op, byte_op} op_size;
-	
+				  ROR,RORB,ROL,ROLB,ASR,ASRB,ASL,ASLB,JMP,SWAB,HALT} opcode_mnemonic;
+
 	// FILE IO
 	int debug=1, info=1, console=0;
 	typedef enum {DATA_READ=0, DATA_WRITE=1, INSTRUCTION_FETCH=2} mem_access_t;				  	

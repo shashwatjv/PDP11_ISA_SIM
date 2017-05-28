@@ -14,7 +14,7 @@ InstructionTrans inst_h;		// Instruction handle
 InstructionFetch fetch_h;		// Fetch unit handle
 InstructionDecode decode_h; 		// Decode unit handle
 Execute exec_h;				// Execution unit handle
-//Writeback wb_h;				// Writeback unit handle
+Writeback wb_h;				// Writeback unit handle
 
 function new ();
 this. mem_h = new();
@@ -32,10 +32,10 @@ endclass
 function void PDP11_20::run();
 LoadMem();
 while (1) begin
-	inst_h = fetch_h.run();
-	decode_h.run(inst_h);
-	execute_h.run(inst_h);
-	//wb_h.run(inst_h);
+	fetch_h.run();
+	decode_h.run();
+	execute_h.run();
+	wb_h.run();
 end
 endfunction
 
