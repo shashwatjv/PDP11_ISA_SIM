@@ -8,19 +8,19 @@ Authors: Harathi, Khanna, Vinchurkar
 `include "common_pkg.sv"
 
 class InstructionTrans;
-static int unsigned inst_id = 0;
+static int unsigned inst_id = 0; //statistics for instruction count 
 string name = "Instruction Transaction";
 word_t IR;
-opcode_mnemonic opcode_ex;
-word_t src_operand;
-word_t dest_operand;
-word_t dest;
-word_t offset;
-bit write_reg_en;
-bit write_mem_en;
-word_t result;
-register_t old_psw;
-register_t new_psw;
+opcode_mnemonic opcode_ex; //opcode used by execute state and set by decode 
+word_t src_operand;  //for JSR this will contain the contents of the source_reg 
+word_t dest_operand; //for JSR this will contain the value which should be loaded into PC 
+word_t dest;   //where the final result will go : value is reg if write_reg_en is set and mem loc if write_mem_en is set //for JSR this will contain the name of the register where the actual contents of the PC should be stored 
+word_t offset; //shifted and sign extended 
+bit write_reg_en; // set to specify a dest as reg   //for JSR this will be set to specify that the value in dest is a register  
+bit write_mem_en; //set to specify a dest as mem
+word_t result;		//result of the aritmetic 
+register_t old_psw;  //status bits 
+register_t new_psw;  //status bits 
 
 function new();
 inst_id += 1;
@@ -30,10 +30,13 @@ endfunction
 extern function void print();
 endclass
 
-function void InstructionTrans::print();
+
+//will both print and retun a snap shot string of the transaction class
+function string InstructionTrans::print();
 
 string msg;
 msg = $sformatf("ID:%5d\tINSTRUCTION:%o\tOPCODE:%s\n",inst_id,IR,opcode_ex);
 `DEBUG(msg)
+return(msg);
 
 endfunction 
