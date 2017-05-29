@@ -22,6 +22,21 @@ word_t result;		//result of the aritmetic
 register_t old_psw;  //status bits 
 register_t new_psw;  //status bits 
 
+
+///////////////////for JSR /////////////////////////
+// src_operand -  will contain the contents of the source_reg 
+// dest_operand - will contain the value which should be loaded into PC 
+//  dest - will contain the name of the register where the actual contents of the PC should be stored
+//write_reg_en will be set
+////////////////////////////////////////////////////
+//////////////////for RTS  opcode///////////////////
+//  src_operand contains the contents of the src reg
+//  dest contains the register number where the TOP is to be popped into 
+//  write_reg_en will be set
+///////////////////////////////////////////////////
+
+
+
 function new();
 inst_id += 1;
 `DEBUG($sformatf("%s:Created an instruction transaction with ID:%0d",name,inst_id))
