@@ -40,6 +40,74 @@ package common_pkg;
 	integer load_mem_f = $fopen("traces/load_mem_trace.f", "w");
 	integer log_f = $fopen("output.log", "w");
 				  
+	typedef logic [2:0] op_t; // instruction opcode
+	typedef logic [1:0] op2_t; // sub opcode 
+
+	typedef logic [2:0] mode_t; // addressing mode
+	typedef logic [2:0] reg_t; // register address
+
+	typedef logic [7:0] ofst_t; // offset for branch instructions
+
+	const logic [3:0] cnst_br = 4'b000_0; // branch ops leading constant [14:11] = 0_0
+	const logic [3:0] cnst_sop = 4'b000_1; // single ops leading constant [14:11] = 0_1
+	const logic [9:0] cnst_psop = 10'b0_000_000_010; // program status instructions, leading constant [15:6] = 'o0002
+        const logic [12:0] cnst_sys = 13'b0_000_000_000_000; // system instructions leading zeros
+	const logic [9:0] cnst_jump = 10'b0_000_000_001; // jump leading constant
+	const logic [9:0] cnst_swab = 10'b0_000_000_011; // swab leading constant
+
+	typedef struct packed {
+		op_size sz;
+		op_t op;
+		mode_t smod;
+		reg_t sreg;
+		mode_t dmod;
+		reg_t dreg;
+	} dop_t; // double operand instructions 
+
+	typedef struct packed {
+		op_size sz;
+	        logic [3:0] cnst;
+		op2_t typ;
+		logic flag;
+		ofst_t ofst;
+	} brop_t; // branch instructions 
+
+	typedef struct packed {
+		op_size sz;
+	        logic [3:0] cnst;
+		op2_t typ;
+		op_t op; // exception: SREG forJSR(typ==0)
+		mode_t dmod;
+		reg_t dreg;
+	} sop_t; // single operand instructions, JSR-jump subroutine, EMT,TRAP-emulator traps
+
+	typedef struct packed {
+	        logic [9:0] cnst;
+		logic flag; // 1-PSW : 0-RTS
+		logic S; // exception: 0 for RTS
+		logic N; // exception: 0 for RTS
+		logic Z; // exception: SREG[2] for RTS
+		logic V; // exception: SREG[1] for RTS
+		logic C;  // exception: SREG[0] for RTS
+	} psop_t; // PSW flag set/clear instructions, RTS-subroutine return 
+
+	typedef struct packed {
+         	logic [12:0] cnst;
+		op_t op;
+	} sys_t; // RESET,WAIT,HALT,IO,Interrupt system instructions
+
+	typedef struct packed {
+	        logic [9:0] cnst;
+		mode_t dmod;
+		reg_t dreg;
+	} jump_t; //  jump instruction 
+
+	typedef struct packed {
+	        logic [9:0] cnst;
+		mode_t dmod;
+		reg_t dreg;
+	} swab_t; //  swab instruction 
+
 endpackage
 
 import common_pkg::*;
