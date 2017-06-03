@@ -325,8 +325,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 					end //}
 				  end //}
 	INDEX			: begin //{
-					eff_addr = read_reg(word_op,register);
 					disp = read_mem(word_op,inc_dec_reg(word_op,A_INCR,`PC));
+					eff_addr = read_reg(word_op,register);
 					eff_addr_1 = eff_addr + disp;
 					return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
 					if (src_dest == DST) begin //{
@@ -336,8 +336,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 					end //}
 				  end //}
 	INDEX_DEF		: begin //{
-					eff_addr = read_reg(word_op,register);
 					disp = read_mem(word_op,inc_dec_reg(word_op,A_INCR,`PC));
+					eff_addr = read_reg(word_op,register);
 					eff_addr_1 = eff_addr + disp;
 					eff_addr_2 = read_mem(word_op,eff_addr_1);
 					return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); 
