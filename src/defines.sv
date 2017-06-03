@@ -35,3 +35,9 @@ Authors: Harathi, Khanna, Vinchurkar
 `define SP 6
 `define PC 7
 `define PSW 8
+
+// Status Bits
+`define PSW_N 3
+`define PSW_Z 2
+`define PSW_V 1
+`define PSW_C 0
