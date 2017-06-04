@@ -109,6 +109,11 @@ package common_pkg;
 		reg_t dreg;
 	} swab_t; //  swab instruction 
 
+
+	typedef enum bit [2:0] {REG,REG_DEF,A_INCR,A_INCR_DEF,A_DEC,A_DEC_DEF,INDEX,INDEX_DEF} amod_t;
+
+
+
 endpackage
 
 import common_pkg::*;
