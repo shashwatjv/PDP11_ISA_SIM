@@ -6,6 +6,8 @@ class Execute;
    RegisterFile reg_h;
    InstructionTrans txn;
 
+   word_t result; // RESULT of current executed instruction
+   
    function new(Memory m_h, RegisterFile r_h)
      ICOUNT = 0;
      this.mem_h = m_h;
@@ -21,7 +23,8 @@ class Execute;
    extern function void ExitSim();
    extern function run(ref InstructionTrans t_h);
 
-
+   extern function void wback(int bw, ref InstructionTrans t_h);
+			      
    extern function void exe_mov(ref InstructionTrans t_h); 
    extern function void exe_movb(ref InstructionTrans t_h); 
    extern function void exe_cmp(ref InstructionTrans t_h); 
@@ -101,7 +104,18 @@ function void Execute::ExitSim();
    $finish;
 endfunction
 
-function void Execute::run(ref InstructionTrans t_h);
+function void wback(op_size bw, ref InstructionTrans t_h)
+  if(t_h.write_mem_en)
+    if(bw) 
+      mem_h.SetByte(mem_addr_t't_h.dest, byte_t'result, 1);
+    else 
+      mem_h.SetWord(mem_addr_t't_h.dest, result, 1);
+  else if(t_h.write_reg_en)
+    reg_h.Write(t_h.dest, result);
+   
+endfunction
+  
+function void Execute::run(ref InstructionTrans t_h)
    IncrementCount();
 
    case(t_h.opcode_ex)
@@ -177,4 +191,4 @@ function void Execute::run(ref InstructionTrans t_h);
    // do exit if decoded halt instruction
    // ExitSim();
 endfunction
->>>>>>> fa3b7b1d0f8020dde0c5545826b9ec4f2f1d3224
+

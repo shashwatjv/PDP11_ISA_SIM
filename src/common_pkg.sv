@@ -16,10 +16,14 @@ package common_pkg;
 	parameter MEM_ADDR_LEN = 16;
 	parameter WORD_SIZE = 16;
 	parameter MEM_WIDTH = 8; 
+        
+        parameter WSIGN = WORD_SIZE-1;
+        parameter BSIGN = (WORD_SIZE/2)-1;
+  
 	typedef logic [WORD_SIZE-1:0] mem_addr_t;
 	typedef logic [MEM_WIDTH-1:0] mem_data_t;
 	typedef logic [WORD_SIZE-1:0] word_t;
-	typedef logic [7:0] byte_t;
+	typedef logic [WORD_SIZE/2-1:0] byte_t;
 	typedef enum {R0, R1, R2, R3, R4, R5, SP, PC, PSW} register_t;
 
 	// INSTRUCTION SET RELATED
@@ -112,7 +116,11 @@ package common_pkg;
 
 	typedef enum bit [2:0] {REG,REG_DEF,A_INCR,A_INCR_DEF,A_DEC,A_DEC_DEF,INDEX,INDEX_DEF} amod_t;
 
-
+        function word_t bsign_ext(word_t in) 
+        begin
+           return ( (signed'(in) << WORD_SIZE/2) >>> WORD_SIZE/2) ;
+        end
+        endfunction
 
 endpackage
 
