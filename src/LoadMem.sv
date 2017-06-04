@@ -48,7 +48,10 @@ function void PDP11_20::LoadMem ();
 	end
 
 	if (promptForPC) begin
-		if (!$value$plusargs("IPC=%o", initPC)) begin
+		if ($value$plusargs("IPC=%o", initPC)) begin
+			$display ("initPC=%o", initPC);
+		end
+		else begin
 			`INFO ($sformatf("[ERROR] Starting address not defined"))
 			$finish();
 		end

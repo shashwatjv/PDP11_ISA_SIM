@@ -40,8 +40,8 @@ mem_access_t AccessType;
 
 AccessType = DATA_WRITE;
 
-assert (Address[0]==1'b0);
-else `INFO("SetWord:: Unaligned word access");
+assert (Address[0]==1'b0)
+else `INFO("SetWord:: Unaligned word access")
 
 for (int i=0; i<=(WORD_SIZE/MEM_WIDTH)-1; i++) begin
 	mem[Address+i] = Data[(i*MEM_WIDTH)+:MEM_WIDTH];
@@ -63,10 +63,11 @@ function word_t Memory::GetWord (mem_addr_t Address, bit ifetch=0, bit log=1);
 mem_access_t AccessType;
 word_t Data;
 
+$display ("Call to get-word: Address=%x", Address);
 AccessType = ifetch ? INSTRUCTION_FETCH : DATA_READ;
 
-assert (Address[0]==1'b0);
-else `INFO("SetWord:: Unaligned word access");
+assert (Address[0]==1'b0)
+else `INFO("SetWord:: Unaligned word access")
 
 for (int i=0; i<(WORD_SIZE/MEM_WIDTH)-1; i++) begin
 	Data[(i*MEM_WIDTH)+:MEM_WIDTH] = mem[Address+i];

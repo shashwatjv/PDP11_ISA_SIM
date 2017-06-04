@@ -5,11 +5,17 @@ InstructionTrans itxn_h;
 Memory mem_h;
 RegisterFile reg_h;
 
-extern function InstructionTrans CreateTransaction();
+function new (Memory mem_h, RegisterFile reg_h);
+	this.mem_h = mem_h;
+	this.reg_h = reg_h;
+endfunction
+
+extern function void CreateTransaction();
 extern function void GetInstruction();
+extern function InstructionTrans run ();
 endclass
 
-function void InstructionFetch:CreateTransaction();
+function void InstructionFetch::CreateTransaction();
 itxn_h = new();
 endfunction
 
@@ -18,7 +24,7 @@ word_t tempPC;
 `DEBUG($sformatf("Fetching instruction from PC=%6o", tempPC))
 tempPC = reg_h.Read(PC); 
 // Check breakpoint array here
-itxn_h.IR = mem_h.GetWord (tempPC, ifetch=1);
+itxn_h.IR = mem_h.GetWord (tempPC, .ifetch(1));
 `DEBUG($sformatf("Fetched IR=%6o", itxn_h.IR))
 tempPC += 16'o2;
 reg_h.Write(PC, tempPC);
@@ -31,4 +37,4 @@ function InstructionTrans InstructionFetch::run();
 CreateTransaction();
 GetInstruction();
 return itxn_h;
-end
+endfunction

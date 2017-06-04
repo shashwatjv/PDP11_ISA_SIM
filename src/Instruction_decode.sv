@@ -13,20 +13,20 @@ Memory mem_h;
 RegisterFile regfile_h;
 InstructionTrans inst;
 
-function new(Memory mem_h, RegisterFile regfile_h, InstructionTrans inst);
+function new(Memory mem_h, RegisterFile regfile_h);
 this.mem_h = mem_h;
 this.regfile_h = regfile_h;
-this.inst = inst;
+//this.inst = inst;
 `DEBUG($sformatf("%s:Created a new InstructionDecode unit",name))
 endfunction
 
-extern function void run();
+extern function void run(InstructionTrans txn);
 extern function void fetch_operand(mode,register);
 extern function word_t read_mem (mem_addr_t addr);  // Instead of this you can directly use mem_h.GetWord or GetByte
 extern function word_t read_reg (register_t reg_num); // Instead of this you can directly use reg_h.Read(`R1)
 endclass
 
-function void InstructionDecode::run();
+function void InstructionDecode::run(InstructionTrans txn);
 // Can simply check inst.IR here and set other fields of inst object
 endfunction
 

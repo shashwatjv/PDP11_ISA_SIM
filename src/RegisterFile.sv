@@ -43,35 +43,35 @@ endfunction
 function void RegisterFile::Print (); // Print the contents of register file in octal
 endfunction
 
-function void RegisterFile::SetN(logic N)
+function void RegisterFile::SetN(logic N);
   this.Regs[PSW][`PSW_N] = N;
 endfunction // SetN
 
-function void RegisterFile::SetZ(logic Z)
+function void RegisterFile::SetZ(logic Z);
   this.Regs[PSW][`PSW_Z] = Z;
 endfunction // SetZ
 
-function void RegisterFile::SetV(logic V)
+function void RegisterFile::SetV(logic V);
   this.Regs[PSW][`PSW_V] = V;
 endfunction // SetV
 
-function void RegisterFile::SetC(logic C)
+function void RegisterFile::SetC(logic C);
   this.Regs[PSW][`PSW_C] = C;
 endfunction // SetC
 
-function logic RegisterFile::GetN()
+function logic RegisterFile::GetN();
   return (this.Regs[PSW][`PSW_N]);
 endfunction // GetN
 
-function logic RegisterFile::GetZ()
+function logic RegisterFile::GetZ();
   return (this.Regs[PSW][`PSW_Z]);
 endfunction // GetZ
 
-function logic RegisterFile::GetV()
+function logic RegisterFile::GetV();
   return (this.Regs[PSW][`PSW_V]);
 endfunction // GetV
 
-function logic RegisterFile::GetC()
+function logic RegisterFile::GetC();
   return (this.Regs[PSW][`PSW_C]);
 endfunction // GetC
 
