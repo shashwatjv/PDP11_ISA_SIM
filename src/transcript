@@ -1,12 +1,6 @@
-# vsim -c -do "run -all" top 
-# Start time: 21:04:13 on May 21,2017
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Warning: Memory.sv(52): (vopt-2250) Function "GetWord" has no return value assignment.
-# ** Warning: Memory.sv(55): (vopt-2250) Function "GetByte" has no return value assignment.
-# ** Warning: Memory.sv(64): (vopt-2250) Function "isBreakpoint" has no return value assignment.
-# ** Warning: RegisterFile.sv(26): (vopt-2250) Function "Read" has no return value assignment.
-# ** Warning: Instruction_decode.sv(36): (vopt-2250) Function "read_mem" has no return value assignment.
-# ** Warning: Instruction_decode.sv(39): (vopt-2250) Function "read_reg" has no return value assignment.
+# vsim -c -novopt -do "run -all" "+IFILE=src2.ascii" "+IPC=10" top 
+# Start time: 21:25:46 on Jun 03,2017
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
 # //  Questa Sim-64
 # //  Version 10.4c linux_x86_64 Jul 19 2015
 # //
@@ -22,10 +16,21 @@
 # //  FURTHERMORE, THIS INFORMATION IS PROHIBITED FROM DISCLOSURE UNDER
 # //  THE TRADE SECRETS ACT, 18 U.S.C. SECTION 1905.
 # //
+# Refreshing /home/ukhanna/common/smb_files/PDP11_ISA_SIM/src/work.top
+# Refreshing /home/ukhanna/common/smb_files/PDP11_ISA_SIM/src/work.Memory_sv_unit
+# Refreshing /home/ukhanna/common/smb_files/PDP11_ISA_SIM/src/work.common_pkg
 # Loading sv_std.std
-# Loading work.common_pkg(fast)
-# Loading work.Memory_sv_unit(fast)
-# Loading work.top(fast)
+# Loading work.common_pkg
+# Loading work.Memory_sv_unit
+# Loading work.top
 # run -all
-# End time: 21:04:16 on May 21,2017, Elapsed time: 0:00:03
-# Errors: 0, Warnings: 6
+# initPC=000010
+# Call to get-word: Address=xxxx
+# ** Error (suppressible): (vsim-8005) Memory.sv(73): Assoc. array key '16'hxxxx' must not contain X's or Z's.
+#    Time: 0 ns  Iteration: 0  Instance: /top
+# ** Error (suppressible): (vsim-8005) Memory.sv(74): Assoc. array key '16'hxxxx' must not contain X's or Z's.
+#    Time: 0 ns  Iteration: 0  Instance: /top
+# ** Note: $finish    : Execute.sv(30)
+#    Time: 0 ns  Iteration: 0  Instance: /top
+# End time: 21:25:46 on Jun 03,2017, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 1

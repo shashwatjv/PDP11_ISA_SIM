@@ -27,7 +27,7 @@ package common_pkg;
 		      ADD,SUB,BR,BNE,BEQ,BGE,BLT,BGT,BLE,BPL,BMI,BHI,
 		      BLOS,BVC,BVS,BCC,BCS,JSR,RTS,CLR,CLRB,COM,COMB,INC,
 		      INCB,DEC,DECB,NEG,NEGB,ADC,ADCB,SBC,SBCB,TST,TSTB,
-		      ROR,RORB,ROL,ROLB,ASR,ASRB,ASL,ASLB,JMP,SWAB,HALT,NOP,
+		      ROR,RORB,ROL,ROLB,ASR,ASRB,ASL,ASLB,JMP,SWAB,HALT,NOP
 		      CLC,CLV,CLZ,CLN,SEC,SEV,SEZ,SEN} opcode_mnemonic;
 	
 	typedef enum bit {word_op, byte_op} op_size;
@@ -108,11 +108,6 @@ package common_pkg;
 		mode_t dmod;
 		reg_t dreg;
 	} swab_t; //  swab instruction 
-
-
-	typedef enum bit [2:0] {REG,REG_DEF,A_INCR,A_INCR_DEF,A_DEC,A_DEC_DEF,INDEX,INDEX_DEF} amod_t;
-
-
 
 endpackage
 
