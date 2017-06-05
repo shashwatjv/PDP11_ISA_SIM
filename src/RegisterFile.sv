@@ -32,15 +32,24 @@ extern function logic GetC();
 endclass
 
 function word_t RegisterFile::Read (register_t Source);
+   return Regs[Source];
 endfunction
 
 function void RegisterFile::Write(register_t Destination, word_t Data);
+   Regs[Destination] = Data
+endfunction
+
+function void RegisterFile::HWrite(register_t Destination, word_t Data);
+   Regs[Destination] = (Regs[Destination] & ~bop_mask) | (Data & bop_mask);
 endfunction
 
 function void RegisterFile::Examine (register_t Destination); // Print a particular register for debug
+   $display("REG_TEST : %p = %o : %b", Destination, Regs[Destination], Regs[Destination]);
 endfunction
 
 function void RegisterFile::Print (); // Print the contents of register file in octal
+   foreach(Regs[i])
+     $display("REG_PRINT : %p = %o : %b", register_t'(i), Regs[i], Regs[i]);
 endfunction
 
 function void RegisterFile::SetN(logic N);

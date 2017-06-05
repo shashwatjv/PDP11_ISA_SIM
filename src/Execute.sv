@@ -7,17 +7,13 @@ class Execute;
    InstructionTrans txn;
 
    word_t result; // RESULT of current executed instruction
+   logic cy; // carry to catch 17th bit of 16-bit math operations
    
    function new(Memory m_h, RegisterFile r_h)
      ICOUNT = 0;
      this.mem_h = m_h;
      this.reg_h = r_h;
    endfunction // new
-   
-
-
-
-
 
    extern function void IncrementCount();
    extern function void ExitSim();
@@ -93,6 +89,8 @@ class Execute;
 
 endclass
 
+`include "nobranch_instr.sv"
+
 function void Execute::IncrementCount();
    ICOUNT+=1;
    `DEBUG($sformatf("Instructions Executed=%0d", ICOUNT))
@@ -106,13 +104,15 @@ endfunction
 
 function void wback(op_size bw, ref InstructionTrans t_h)
   if(t_h.write_mem_en)
-    if(bw) 
-      mem_h.SetByte(mem_addr_t't_h.dest, byte_t'result, 1);
-    else 
-      mem_h.SetWord(mem_addr_t't_h.dest, result, 1);
+    if(bw == byte_op) 
+      mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'result, 1);
+    else if(bw == word_op)
+      mem_h.SetWord(mem_addr_t'(t_h.dest), result, 1);
   else if(t_h.write_reg_en)
-    reg_h.Write(t_h.dest, result);
-   
+    if(bw == byte_op) 
+      reg_h.HWrite(register_t'(t_h.dest), result);
+    else if(bw == word_op)
+      reg_h.Write(register_t'(t_h.dest), result);
 endfunction
   
 function void Execute::run(ref InstructionTrans t_h)
@@ -190,5 +190,6 @@ function void Execute::run(ref InstructionTrans t_h)
 	
    // do exit if decoded halt instruction
    // ExitSim();
-endfunction
+endfunction // run
+
 
