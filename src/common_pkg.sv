@@ -124,10 +124,8 @@ package common_pkg;
 
 	typedef enum bit [2:0] {REG,REG_DEF,A_INCR,A_INCR_DEF,A_DEC,A_DEC_DEF,INDEX,INDEX_DEF} amod_t;
 
-        function word_t bsign_ext(word_t in) 
-        begin
+        function word_t bsign_ext(word_t in); 
            return ( (signed'(in) << HWORD_SIZE) >>> HWORD_SIZE) ;
-        end
         endfunction
 
 endpackage

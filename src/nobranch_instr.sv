@@ -25,7 +25,7 @@ function void Execute::exe_cmp(ref InstructionTrans t_h);
 	      (result[WSIGN] ~^ t_h.dest_operand[WSIGN]));
 endfunction // exe_cmp
 
-function void Execute::exe_cmpb(ref InstructionTrans t_h);;
+function void Execute::exe_cmpb(ref InstructionTrans t_h);
    {cy,result} = bsign_ext(t_h.src_operand) - bsign_ext(t_h.dest_operand);
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
@@ -34,7 +34,7 @@ function void Execute::exe_cmpb(ref InstructionTrans t_h);;
 	      (result[WSIGN] ~^ t_h.dest_operand[BSIGN]));
 endfunction // exe_cmpb
 
-function void Execute::exe_bit(ref InstructionTrans t_h);;
+function void Execute::exe_bit(ref InstructionTrans t_h);
    result = t_h.src_operand & t_h.dest_operand;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
@@ -227,7 +227,7 @@ function void Execute::exe_sbc(ref InstructionTrans t_h);
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(!(c && (result === '0)));
-   reg_h.SetV(result === wop_min));
+   reg_h.SetV(result === wop_min);
    wback(word_op, t_h); // arg: (op_size, xaction_ptr)
 endfunction // exe_sbc
 
@@ -238,7 +238,7 @@ function void Execute::exe_sbcb(ref InstructionTrans t_h);
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(!(c && (result === '0)));
-   reg_h.SetV(result === bop_min));
+   reg_h.SetV(result === bop_min);
    wback(byte_op, t_h); // arg: (op_size, xaction_ptr)
 endfunction // exe_sbcb
 

@@ -1,7 +1,7 @@
 `include "common_pkg.sv";
 
 class Execute;
-   unsigned longint ICOUNT;
+   longint unsigned ICOUNT;
    Memory mem_h;
    RegisterFile reg_h;
    InstructionTrans txn;
@@ -9,7 +9,7 @@ class Execute;
    word_t result; // RESULT of current executed instruction
    logic cy; // carry to catch 17th bit of 16-bit math operations
    
-   function new(Memory m_h, RegisterFile r_h)
+   function new(Memory m_h, RegisterFile r_h);
      ICOUNT = 0;
      this.mem_h = m_h;
      this.reg_h = r_h;
@@ -102,10 +102,10 @@ function void Execute::ExitSim();
    $finish;
 endfunction
 
-function void wback(op_size bw, ref InstructionTrans t_h)
+function void wback(op_size bw, ref InstructionTrans t_h);
   if(t_h.write_mem_en)
     if(bw == byte_op) 
-      mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'result, 1);
+      mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 1);
     else if(bw == word_op)
       mem_h.SetWord(mem_addr_t'(t_h.dest), result, 1);
   else if(t_h.write_reg_en)
@@ -115,7 +115,7 @@ function void wback(op_size bw, ref InstructionTrans t_h)
       reg_h.Write(register_t'(t_h.dest), result);
 endfunction
   
-function void Execute::run(ref InstructionTrans t_h)
+function void Execute::run(ref InstructionTrans t_h);
    IncrementCount();
 
    case(t_h.opcode_ex)

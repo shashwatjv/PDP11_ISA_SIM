@@ -18,6 +18,7 @@ endfunction
 
 extern function word_t Read (register_t Source);
 extern function void Write(register_t Destination, word_t Data);
+extern function void HWrite(register_t Destination, word_t Data);
 extern function void Examine (register_t Destination); 
 extern function void Print ();
 extern function void SetN(logic);
@@ -36,7 +37,7 @@ function word_t RegisterFile::Read (register_t Source);
 endfunction
 
 function void RegisterFile::Write(register_t Destination, word_t Data);
-   Regs[Destination] = Data
+   Regs[Destination] = Data;
 endfunction
 
 function void RegisterFile::HWrite(register_t Destination, word_t Data);
