@@ -8,7 +8,8 @@ lib:
 	vmap work work
 		
 compile:
-	vlog -mfcu Memory.sv RegisterFile.sv InstuctionTrans.sv Instruction_fetch.sv Instruction_decode.sv Execute.sv PDP11_20.sv LoadMem.sv top.sv
+	#vlog -mfcu Memory.sv RegisterFile.sv InstuctionTrans.sv Instruction_fetch.sv Instruction_decode.sv Execute.sv PDP11_20.sv LoadMem.sv top.sv
+	vlog -mfcu -f files_sv.f 
 
 sim:
 	vsim -c -novopt -do "run -all" +IFILE=$(IFILE)  +IPC=$(IPC) top
