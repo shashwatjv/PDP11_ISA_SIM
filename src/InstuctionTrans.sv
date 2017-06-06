@@ -42,7 +42,7 @@ inst_id += 1;
 `DEBUG($sformatf("%s:Created an instruction transaction with ID:%0d",name,inst_id))
 endfunction
 
-extern function void print();
+extern function string print();
 endclass
 
 

@@ -6,7 +6,7 @@ Authors: Harathi, Khanna, Vinchurkar
 */
 
 `include "common_pkg.sv"
-
+//import common_pkg::*;
 class Memory;
 byte_t mem [mem_addr_t];
 bit  breakpoint [mem_addr_t];
