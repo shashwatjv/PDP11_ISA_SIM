@@ -5,11 +5,12 @@ PDP 11/20 ISA simulator
 Authors: Harathi, Khanna, Vinchurkar
 */
 
-`include "defines.sv"
-`include "common_pkg.sv"
+//`include "defines.sv"
+//`include "common_pkg.sv"
 
+import common_pkg::*;
 class RegisterFile;
-word_t Regs [9]; // R0, R1, R2, R3, R4, R5, SP, PC, PSW
+local word_t Regs [9]; // R0, R1, R2, R3, R4, R5, SP, PC, PSW
 Memory mem_h;
 
 function new (Memory mem_h);
@@ -29,20 +30,25 @@ extern function logic GetZ();
 extern function logic GetV();
 extern function logic GetC();
 extern function mem_addr_t RegMemMap(register_t Source);
+extern function void HWrite(register_t Destination, word_t Data);
 endclass
 
+function void RegisterFile::HWrite(register_t Destination, word_t Data);
+endfunction
+
 function word_t RegisterFile::Read (register_t Source);
-word_t data;
-mem_addr_t address;
-address = RegMemMap (Souce);
-data = mem_h.GetWord (address, .log(0));
-return data;
+word_t Data;
+Data = Regs[Source];
+`DEBUG($sformatf("Read %6o from %s", Data, Source))
+return Data;
 endfunction
 
 function void RegisterFile::Write(register_t Destination, word_t Data);
 mem_addr_t address;
 address = RegMemMap (Destination);
 mem_h.SetWord (address, Data, .log(0));
+Regs[Destination]=Data;
+`DEBUG($sformatf("Writing %6o to %s", Data, Destination))
 endfunction
 
 function void RegisterFile::Examine (register_t Destination); // Print a particular register for debug
@@ -62,19 +68,27 @@ Examine (PSW);
 endfunction
 
 function void RegisterFile::SetN(logic N);
-  this.Regs[PSW][`PSW_N] = N;
+  Regs[PSW][`PSW_N] = N;
+  Write(PSW, Regs[PSW]);
+  `DEBUG($sformatf("Setting N=%b", N))
 endfunction // SetN
 
 function void RegisterFile::SetZ(logic Z);
   this.Regs[PSW][`PSW_Z] = Z;
+  Write(PSW, Regs[PSW]);
+  `DEBUG($sformatf("Setting Z=%b", Z))
 endfunction // SetZ
 
 function void RegisterFile::SetV(logic V);
   this.Regs[PSW][`PSW_V] = V;
+  Write(PSW, Regs[PSW]);
+  `DEBUG($sformatf("Setting V=%b", V))
 endfunction // SetV
 
 function void RegisterFile::SetC(logic C);
   this.Regs[PSW][`PSW_C] = C;
+  Write(PSW, Regs[PSW]);
+  `DEBUG($sformatf("Setting C=%b", V))
 endfunction // SetC
 
 function logic RegisterFile::GetN();
@@ -104,6 +118,8 @@ function mem_addr_t RegisterFile::RegMemMap(register_t Source);
 		SP: return `SP_MLOC;
 		PC: return `PC_MLOC;
 		PSW: return `PSW_MLOC;
-		default: `DEBUG ("Illegal register source");
+		default: `DEBUG ("Illegal register source")
 	endcase
-end
+endfunction
+
+

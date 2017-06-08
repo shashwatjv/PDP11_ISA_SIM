@@ -252,7 +252,7 @@ endtask
 
 task InstructionDecode::branch();
 	brop_t b_ir = inst.IR;
-	inst.offset = {{7{br.of[7]}},br.ofst,1'b0};
+	inst.offset = {{7{b_ir.ofst[7]}},b_ir.ofst,1'b0};
 endtask
 
 ///////////////////for JSR /////////////////////////

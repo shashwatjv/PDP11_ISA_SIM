@@ -128,6 +128,7 @@ package common_pkg;
            return ( (signed'(in) << HWORD_SIZE) >>> HWORD_SIZE) ;
         endfunction
 
+	typedef enum bit {NT, T} branch_taken_t;
 endpackage
 
 import common_pkg::*;

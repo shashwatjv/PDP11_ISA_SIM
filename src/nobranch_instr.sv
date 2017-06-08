@@ -346,12 +346,13 @@ endfunction // exe_aslb
 
 function void Execute::exe_swab(ref InstructionTrans t_h);
    // add assertion to check even address
-   result = {t_h.dest_operand[LSB :+ HWORD_SIZE], t_h.dest_operand[HWORD_SIZE :+ HWORD_SIZE]};
+   
+   /*result = {t_h.dest_operand[HWORD_SIZE-1 :- HWORD_SIZE], t_h.dest_operand[WORD_SIZE-1 :- HWORD_SIZE]};
    reg_h.SetZ(result[LSB :+ HWORD_SIZE] === '0);
    reg_h.SetN(result[BSIGN]);
    reg_h.SetC('0);
    reg_h.SetV('0);
-   wback(word_op, t_h); // arg: (op_size, xaction_ptr)
+   wback(word_op, t_h); // arg: (op_size, xaction_ptr)*/
 endfunction // exe_swab
 
 function void Execute::exe_clc(ref InstructionTrans t_h);

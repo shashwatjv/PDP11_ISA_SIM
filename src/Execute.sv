@@ -17,9 +17,9 @@ class Execute;
 
    extern function void IncrementCount();
    extern function void ExitSim();
-   extern function run(ref InstructionTrans t_h);
+   extern function void run(ref InstructionTrans t_h);
 
-   extern function void wback(int bw, ref InstructionTrans t_h);
+   extern function void wback(op_size bw, ref InstructionTrans t_h);
 			      
    extern function void exe_mov(ref InstructionTrans t_h); 
    extern function void exe_movb(ref InstructionTrans t_h); 
@@ -103,7 +103,7 @@ function void Execute::ExitSim();
    $finish;
 endfunction
 
-function void wback(op_size bw, ref InstructionTrans t_h);
+function void Execute::wback(op_size bw, ref InstructionTrans t_h);
   if(t_h.write_mem_en)
     if(bw == byte_op) 
       mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 1);
@@ -193,5 +193,9 @@ function void Execute::run(ref InstructionTrans t_h);
    // do exit if decoded halt instruction
    // ExitSim();
 endfunction // run
+
+
+`include "exe_branch.sv"
+
 
 

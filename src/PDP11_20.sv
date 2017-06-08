@@ -25,10 +25,10 @@ this.execute_h = new(mem_h, reg_h);
 endfunction
 
 extern function void LoadMem();
-extern function void run();
+extern task run();
 endclass
 
-function void PDP11_20::run();
+task PDP11_20::run();
 LoadMem();
 while (1) begin
 	inst_h = fetch_h.run();
@@ -36,5 +36,5 @@ while (1) begin
 	execute_h.run(inst_h);
 	//wb_h.run(inst_h);
 end
-endfunction
+endtask
 

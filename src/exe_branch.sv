@@ -1,4 +1,4 @@
-function mem_addr_t Execute::compute_branch_target (InstructionTrans t_h);
+function mem_addr_t Execute::compute_branch_target (ref InstructionTrans t_h);
 	mem_addr_t tgt_addr; 
 	word_t pc_i;
 	pc_i = reg_h.Read(PC);
@@ -10,8 +10,8 @@ function mem_addr_t Execute::compute_branch_target (InstructionTrans t_h);
 	t_h.C=reg_h.GetC();
 
 	// Transaction debug overhead
-	old_psw = reg_h.Read(PSW);
-	new_psw = old_psw;
+	t_h.old_psw = reg_h.Read(PSW);
+	t_h.new_psw = t_h.old_psw;
 	t_h.write_reg_en = 0;
 	t_h.write_mem_en = 0;
 	return tgt_addr;
@@ -70,18 +70,18 @@ function void Execute::exe_bge (ref InstructionTrans t_h);
 endfunction
 
 function void Execute::exe_ble (ref InstructionTrans t_h);
-	`BR_FUNC((t_H.Z | (t_h.N ^ t_h.V))===1)
+	`BR_FUNC((t_h.Z | (t_h.N ^ t_h.V))===1)
 endfunction
 
 function void Execute::exe_bgt (ref InstructionTrans t_h);
-	`BR_FUNC((t_H.Z | (t_h.N ^ t_h.V))===0)
+	`BR_FUNC((t_h.Z | (t_h.N ^ t_h.V))===0)
 endfunction
 
 
 // UNSIGNED CONDITIONAL BRANCHES
 
 function void Execute::exe_bhi (ref InstructionTrans t_h);
-	`BR_FUNC((t_H.C & t_h.Z)===0)
+	`BR_FUNC((t_h.C & t_h.Z)===0)
 endfunction
 
 function void Execute::exe_blos (ref InstructionTrans t_h);
@@ -102,7 +102,7 @@ function void Execute::exe_jsr (ref InstructionTrans t_h);
 // BRANCH TRACE FILE
 endfunction
 
-function void Execute::exe_rts (ref InstructionTrans t_h)
+function void Execute::exe_rts (ref InstructionTrans t_h);
 // BRANCH TRACE FILE
 endfunction
 

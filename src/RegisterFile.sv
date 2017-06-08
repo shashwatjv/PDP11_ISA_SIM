@@ -38,7 +38,7 @@ endfunction
 
 function word_t RegisterFile::Read (register_t Source);
 word_t Data;
-Data = Regs[Destination];
+Data = Regs[Source];
 `DEBUG($sformatf("Read %6o from %s", Data, Source))
 return Data;
 endfunction
@@ -76,19 +76,19 @@ endfunction // SetN
 function void RegisterFile::SetZ(logic Z);
   this.Regs[PSW][`PSW_Z] = Z;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting Z=%b", N))
+  `DEBUG($sformatf("Setting Z=%b", Z))
 endfunction // SetZ
 
 function void RegisterFile::SetV(logic V);
   this.Regs[PSW][`PSW_V] = V;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting V=%b", N))
+  `DEBUG($sformatf("Setting V=%b", V))
 endfunction // SetV
 
 function void RegisterFile::SetC(logic C);
   this.Regs[PSW][`PSW_C] = C;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting C=%b", N))
+  `DEBUG($sformatf("Setting C=%b", C))
 endfunction // SetC
 
 function logic RegisterFile::GetN();
@@ -118,8 +118,8 @@ function mem_addr_t RegisterFile::RegMemMap(register_t Source);
 		SP: return `SP_MLOC;
 		PC: return `PC_MLOC;
 		PSW: return `PSW_MLOC;
-		default: `DEBUG ("Illegal register source");
+		default: `DEBUG ("Illegal register source")
 	endcase
-end
+endfunction
 
 

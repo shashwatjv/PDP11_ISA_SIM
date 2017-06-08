@@ -1,4 +1,4 @@
-IPC?=10
+IPC?=0
 IFILE ?= src2.ascii
 
 all: clean lib compile sim
@@ -8,7 +8,7 @@ lib:
 	vmap work work
 		
 compile:
-	vlog -mfcu -f files_sv.f 
+	vlog -mfcu -f file_sv.f 
 sim:
 	vsim -c -novopt -do "run -all" +IFILE=$(IFILE)  +IPC=$(IPC) top
 	
