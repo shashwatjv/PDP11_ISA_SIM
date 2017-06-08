@@ -1,4 +1,4 @@
-`include "common_pkg.sv";
+`include "common_pkg.sv"
 
 class Execute;
    longint unsigned ICOUNT;
