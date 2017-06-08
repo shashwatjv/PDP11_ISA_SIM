@@ -63,21 +63,24 @@ function word_t Memory::GetWord (mem_addr_t Address, bit ifetch=0, bit log=1);
 mem_access_t AccessType;
 word_t Data;
 
-$display ("Call to get-word: Address=%x", Address);
+`DEBUG($sformatf("Call to get-word: Address=%x", Address))
 AccessType = ifetch ? INSTRUCTION_FETCH : DATA_READ;
 
 assert (Address[0]==1'b0)
 else `INFO("SetWord:: Unaligned word access")
 
-for (int i=0; i<(WORD_SIZE/MEM_WIDTH)-1; i++) begin
+for (int i=0; i<(WORD_SIZE/MEM_WIDTH); i++) begin
+//for (int i=0; i<2; i++) begin
 	Data[(i*MEM_WIDTH)+:MEM_WIDTH] = mem[Address+i];
 	valid[Address+i] = 1;
+	`DEBUG($sformatf("Inner loop: Data=%6o, Mem=%6o", Data, mem[Address+i]))
 end
 
 if (log===1) begin
 `MEM_TRACE($sformatf("%0d \t %6o", AccessType, Address))
 `DEBUG_MEM_TRACE($sformatf("%s \t %6o \t %6o", AccessType, Address, Data))
 end
+`DEBUG($sformatf("Returning Data: %6o", Data))
 return Data;
 endfunction
 

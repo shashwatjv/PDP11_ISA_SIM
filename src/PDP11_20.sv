@@ -34,7 +34,8 @@ while (1) begin
 	inst_h = fetch_h.run();
 	decode_h.run(inst_h);
 	execute_h.run(inst_h);
-	//wb_h.run(inst_h);
+	void'(inst_h.print());
+	inst_h = null;
 end
 endtask
 

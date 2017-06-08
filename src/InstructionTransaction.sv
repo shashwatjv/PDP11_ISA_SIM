@@ -19,21 +19,22 @@ word_t offset; //shifted and sign extended
 bit write_reg_en; // set to specify a dest as reg   //for JSR this will be set to specify that the value in dest is a register  
 bit write_mem_en; //set to specify a dest as mem
 word_t result;		//result of the aritmetic 
-word_t old_psw;  //status bits 
-word_t new_psw;  //status bits 
+psop_t old_psw;  //status bits 
+psop_t new_psw;  //status bits 
 logic N,Z,V,C;		// Easy access to status flags for branch instructions
 branch_taken_t br_taken; // 1-bit enum for creating branch trace file
 mem_addr_t instr_pc; // The PC value of current instruction
 ///////////////////for JSR /////////////////////////
-// src_operand -  will contain the contents of the source_reg 
+// src_operand -  will contain the contents of the source_reg which should be pushed on stack
 // dest_operand - will contain the value which should be loaded into PC 
 //  dest - will contain the name of the register where the actual contents of the PC should be stored
-//write_reg_en will be set
+//write_reg_en will be set : call writeback (dest, PC);
 ////////////////////////////////////////////////////
 //////////////////for RTS  opcode///////////////////
 //  src_operand contains the contents of the src reg
-//  dest contains the register number where the TOP is to be popped into 
+//  dest contains the register number where the TOP OF STACK is to be popped into 
 //  write_reg_en will be set
+//  first restore reg to pc, THEN pop top of stack to reg
 ///////////////////////////////////////////////////
 
 
@@ -49,10 +50,12 @@ endclass
 
 //will both print and retun a snap shot string of the transaction class
 function string InstructionTrans::print();
+//function InstructionTrans::print();
 
 string msg;
-msg = $sformatf("ID:%5d\tINSTRUCTION:%o\tOPCODE:%s\n",inst_id,IR,opcode_ex);
+msg = $sformatf("ID:%0d  PC:%o  INSTRUCTION:%o  OPCODE:%s  SRC:%o  DEST:%o  OFFSET:%o  RESULT:%o  OLD_PSW:%p  NEW_PSW:%p\n",inst_id,instr_pc, IR, opcode_ex,src_operand,dest_operand,offset,result,old_psw,new_psw);
 `DEBUG(msg)
 return(msg);
 
 endfunction 
+
