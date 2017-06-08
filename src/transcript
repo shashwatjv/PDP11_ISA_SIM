@@ -1,5 +1,5 @@
 # vsim -c -novopt -do "run -all" "+IFILE=src2.ascii" "+IPC=10" top 
-# Start time: 01:19:37 on Jun 08,2017
+# Start time: 13:45:26 on Jun 08,2017
 # ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
 # //  Questa Sim-64
 # //  Version 10.4c linux_x86_64 Jul 19 2015
@@ -39,5 +39,3 @@
 #    Time: 0 ns  Iteration: 0  Instance: /top
 # Break in Function Memory_sv_unit/Execute::exe_halt at nobranch_instr.sv line 393
 # Stopped at nobranch_instr.sv line 393
-# End time: 01:29:27 on Jun 08,2017, Elapsed time: 0:09:50
-# Errors: 2, Warnings: 1
