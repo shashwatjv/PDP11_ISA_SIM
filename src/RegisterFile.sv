@@ -5,9 +5,10 @@ PDP 11/20 ISA simulator
 Authors: Harathi, Khanna, Vinchurkar
 */
 
-`include "defines.sv"
-`include "common_pkg.sv"
+//`include "defines.sv"
+//`include "common_pkg.sv"
 
+import common_pkg::*;
 class RegisterFile;
 local word_t Regs [9]; // R0, R1, R2, R3, R4, R5, SP, PC, PSW
 Memory mem_h;

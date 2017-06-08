@@ -4,6 +4,7 @@ ECE 586, Spring 2017
 PDP 11/20 ISA simulator
 Authors: Harathi, Khanna, Vinchurkar
 */
+/*
 `define S single_op()
 `define D double_op()
 `define B branch()
@@ -15,17 +16,38 @@ Authors: Harathi, Khanna, Vinchurkar
 		   `D
 `define OPB(x)    `OP1(x);\
 		   `B
+*/
 
-`define reg_write(x,y) regfile_h.Write('register_t(x),y)  
+`define S single_op()
+`define D double_op()
+`define B branch()
 
-`include "common_pkg.sv"
+`define OP(a,b) inst.opcode_ex = inst.IR[15] ? a : b
 
+`define OP1(a) inst.opcode_ex = a
+
+
+//`define OPS(a,b) inst.opcode_ex = bw ? a : b;single_op()
+`define OPS(a,b) inst.opcode_ex = inst.IR[15] ? a : b;single_op()
+
+//`define OPD(a,b) inst.opcode_ex = bw ? a : b;double_op()
+`define OPD(a,b) inst.opcode_ex = inst.IR[15] ? a : b;double_op()
+
+`define OPB(a) inst.opcode_ex = a;branch()		
+
+
+`define reg_write(x,y) regfile_h.Write(register_t'(x),y)  
+
+//`include "common_pkg.sv"
+
+import common_pkg::*;
 class InstructionDecode;
 string name = "InstructionDecode";
 Memory mem_h;
 RegisterFile regfile_h;
 InstructionTrans inst;
 typedef enum {SRC,DST} am;
+typedef logic [7:0] radr_t;
 
 //function new(Memory mem_h, RegisterFile regfile_h, InstructionTrans inst);
 function new(Memory mem_h, RegisterFile regfile_h);
@@ -44,9 +66,9 @@ extern task r_subroutine();
 extern task decode_src_am(op_size b_w,amod_t am_s,radr_t rs_num);
 extern task decode_dest_am(op_size b_w,amod_t am_d,radr_t rd_num);
 //extern function void halt();
-extern task fetch_operand(op_size b_w,amod_t mode,radr_t register,am src_dest,word_t return_value,word_t dst=16'o0,reg_vld=1'b0,mem_vld=1'b0);
+extern task fetch_operand(input op_size b_w,amod_t mode,radr_t register,am src_dest,output word_t return_value,word_t dst,bit reg_vld,bit mem_vld);
 extern function word_t read_mem (op_size b_w,mem_addr_t addr);  
-extern function word_t read_reg (op_size b_w,register_t reg_num); 
+extern function word_t read_reg (op_size b_w,radr_t reg_num); 
 extern function word_t inc_dec_reg(op_size b_w,amod_t mode,radr_t register);
 endclass
 
@@ -62,139 +84,140 @@ endtask
 
 task InstructionDecode::identify_inst_format();
 
-	let bw = inst.IR[15];
 
 	`DEBUG($sformatf("%s:identify_inst_format:Received instruction of %o",name,inst.IR))
+	      
+	      //let bw = inst.IR[15];
 
 	priority case (inst.IR) inside //{
-	WORD_SIZE'o000000	:	begin //{
+
+	'o000000	:	begin //{
 					`OP1(HALT);
-					//halt();		
 					end //}
-	WORD_SIZE'o00020?	:	begin //{
+	16'o00020?	:	begin //{
 					`OP1(RTS);
 					r_subroutine();
 					end //}
-	WORD_SIZE'o0004??	:	begin //{
+	16'o0004??	:	begin //{
 					`OP1(JSR);
 					subroutine();
 					end //}
-	WORD_SIZE'o?050??	:	begin //{
+	16'o?050??	:	begin //{
 					`OPS(CLRB,CLR);
 					end //}
-	WORD_SIZE'o?051??	:	begin //{
+	16'o?051??	:	begin //{
 					`OPS(COMB,COM);
 					end //}
-	WORD_SIZE'o?052??	:	begin //{
+	16'o?052??	:	begin //{
 					`OPS(INCB,INC);
 					end //}
-	WORD_SIZE'o?053??	:	begin //{
+	16'o?053??	:	begin //{
 					`OPS(DECB,DEC);
 					end //}
-	WORD_SIZE'o?054??	:	begin //{
+	16'o?054??	:	begin //{
 					`OPS(NEGB,NEG);
 					end //}
-	WORD_SIZE'o?055??	:	begin //{
+	16'o?055??	:	begin //{
 					`OPS(ADCB,ADC);
 					end //}
-	WORD_SIZE'o?056??	:	begin //{
+	16'o?056??	:	begin //{
 					`OPS(SBCB,SBC);
 					end //}
-	WORD_SIZE'o?057??	:	begin //{
+	16'o?057??	:	begin //{
 					`OPS(TSTB,TST);
 					end //}
-	WORD_SIZE'o?060??	:	begin //{
+	16'o?060??	:	begin //{
 					`OPS(RORB,ROR);
 					end //}
-	WORD_SIZE'o?061??	:	begin //{
+	16'o?061??	:	begin //{
 					`OPS(ROLB,ROL);
 					end //}
-	WORD_SIZE'o?062??	:	begin //{
+	16'o?062??	:	begin //{
 					`OPS(ASRB,ASR);
 					end //}
-	WORD_SIZE'o?063??	:	begin //{
+	16'o?063??	:	begin //{
 					`OPS(ASLB,ASL);
 					end //}
-	WORD_SIZE'o0001??	:	begin //{
+	16'o0001??	:	begin //{
 					`OP1(JMP);
 					`S;
 					end //}
-	WORD_SIZE'o0003??	:	begin //{
+	16'o0003??	:	begin //{
 					`OP1(SWAB);
 					`S;
 					end //}
-	WORD_SIZE'o0004??	:	begin //{
+	16'o0004??	:	begin //{
 					`OPB(BR);
 					end //}
-	WORD_SIZE'o0010??	:	begin //{
+	16'o0010??	:	begin //{
 					`OPB(BNE);
 					end //}
-	WORD_SIZE'o0014??	:	begin //{
+	16'o0014??	:	begin //{
 					`OPB(BEQ);
 					end //}
-	WORD_SIZE'o0020??	:	begin //{
+	16'o0020??	:	begin //{
 					`OPB(BGE);
 					end //}
-	WORD_SIZE'o0024??	:	begin //{
+	16'o0024??	:	begin //{
 					`OPB(BLT);
 					end //}
-	WORD_SIZE'o0030??	:	begin //{
+	16'o0030??	:	begin //{
 					`OPB(BGT);
 					end //}
-	WORD_SIZE'o0034??	:	begin //{
+	16'o0034??	:	begin //{
 					`OPB(BLE);
 					end //}
-	WORD_SIZE'o1000??	:	begin //{
+	16'o1000??	:	begin //{
 					`OPB(BPL);
 					end //}
-	WORD_SIZE'o1004??	:	begin //{
+	16'o1004??	:	begin //{
 					`OPB(BMI);
 					end //}
-	WORD_SIZE'o1010??	:	begin //{
+	16'o1010??	:	begin //{
 					`OPB(BHI);
 					end //}
-	WORD_SIZE'o1014??	:	begin //{
+	16'o1014??	:	begin //{
 					`OPB(BLOS);
 					end //}
-	WORD_SIZE'o1020??	:	begin //{
+	16'o1020??	:	begin //{
 					`OPB(BVC);
 					end //}
-	WORD_SIZE'o1024??	:	begin //{
+	16'o1024??	:	begin //{
 					`OPB(BVS);
 					end //}
-	WORD_SIZE'o1030??	:	begin //{
+	16'o1030??	:	begin //{
 					`OPB(BCC);
 					end //}
-	WORD_SIZE'o1030??	:	begin //{
+	16'o1030??	:	begin //{
 					`OPB(BCS);
 					end //}
-	WORD_SIZE'o?1????	:	begin //{
+	16'o?1????	:	begin //{
 					`OPD(MOVB,MOV);
 					end //}
-	WORD_SIZE'o?2????	:	begin //{
+	16'o?2????	:	begin //{
 					`OPD(CMPB,CMP);
 					end //}
-	WORD_SIZE'o?3????	:	begin //{
+	16'o?3????	:	begin //{
 					`OPD(BITB,BIT);
 					end //}
-	WORD_SIZE'o?4????	:	begin //{
+	16'o?4????	:	begin //{
 					`OPD(BICB,BIC);
 					end //}
-	WORD_SIZE'o?5????	:	begin //{
+	16'o?5????	:	begin //{
 					`OPD(BISB,BIS);
 					end //}
-	WORD_SIZE'o06????	:	begin //{
+	16'o06????	:	begin //{
 					`OP1(ADD);
 					`D;
 					end //}
-	WORD_SIZE'o16????	:	begin //{
+	16'o16????	:	begin //{
 					`OP1(SUB);
 					`D;
 					end //}
-	WORD_SIZE'o??????	: 	begin //{
+	16'o??????	: 	begin //{
 					`DEBUG($sformatf("%s,%o Unidentified Instruction turning into NOP ",name,inst.IR))
 					`OP1(NOP);
-					end 
+					end //}
 	endcase //}
 
 	`DEBUG($sformatf("%s:identify_inst_format:ocode is %s",name,inst.opcode_ex))
@@ -211,25 +234,25 @@ endtask
 //dest - has the register number or the destination address depending on write_reg_en and write_mem_en respectively 
 task InstructionDecode::double_op();
 
-	dop d_ir = inst.IR;
-	decode_src_am(d_ir.bop,d_ir.smod,d_ir.sreg);
-	decode_dest_am(d_ir.bop,d_ir.dmod,d_ir.dreg);
+	dop_t d_ir = inst.IR;
+	decode_src_am(d_ir.sz,amod_t'(d_ir.smod),d_ir.sreg);
+	decode_dest_am(d_ir.sz,amod_t'(d_ir.dmod),d_ir.dreg);
 endtask 
 
 //dest_operand - has the destination operand 
 //dest - has the register number or the destination address depending on write_reg_en and write_mem_en respectively 
 task InstructionDecode::single_op();
-	sop s_ir = inst.IR;
+	sop_t s_ir = inst.IR;
 	assert ((inst.opcode_ex == JMP) && (s_ir.dmod == REG)) $fatal ("REGISTER MODE ILLEGAL IN JUMP");
-	decode_dest_am(s_ir.bop,s_ir.dmod,s_ir.dreg);
+	decode_dest_am(s_ir.sz,amod_t'(s_ir.dmod),s_ir.dreg);
 	assert ((inst.opcode_ex == JMP) && (inst.dest_operand[0] == 1'b1)) $error ("Boundary error condition access to odd address for a JUMP");
 endtask
 
 ///offset - has the shifted sign extended value 
 
 task InstructionDecode::branch();
-	br b_ir = inst.IR;
-	inst.offset = {{7{br.of[7]}},br.of,1'b0};
+	brop_t b_ir = inst.IR;
+	inst.offset = {{7{br.of[7]}},br.ofst,1'b0};
 endtask
 
 ///////////////////for JSR /////////////////////////
@@ -240,10 +263,10 @@ endtask
 ////////////////////////////////////////////////////
 task InstructionDecode::subroutine();
 
-	subr subr_ir = inst.IR;
-	decode_src_am(word_op,REG,subr_ir.sreg);
-	decode_src_am(subr_ir.bop,subr_ir.dmod,subr_ir.dreg);
-	inst.dest = {13{1'b0},subr_ir.sreg};
+	sop_t subr_ir = inst.IR;
+	decode_src_am(word_op,REG,subr_ir.op);
+	decode_src_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
+	inst.dest = {{13{1'b0}},subr_ir.op};
 	inst.write_reg_en = 1'b1;
 	inst.write_mem_en = 1'b0;
 endtask
@@ -254,9 +277,9 @@ endtask
 //  write_reg_en will be set
 ///////////////////////////////////////////////////
 task InstructionDecode::r_subroutine();
-	r_subr rsubr_ir = inst.IR;
-	decode_src_am(word_op,REG,rsubr_ir.sreg);
-	inst.dest = {13{1'b0},rsubr_ir.sreg};
+	sys_t rsubr_ir = inst.IR;
+	decode_src_am(word_op,REG,rsubr_ir.op);
+	inst.dest = {{13{1'b0}},rsubr_ir.op};
 	inst.write_reg_en = 1'b1;
 	inst.write_mem_en = 1'b0;
 endtask
@@ -285,12 +308,13 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 	//word_t return_value;
 	word_t eff_addr,eff_addr_1,disp,eff_addr_2;
 
-	unique case (mode) //{
 	return_value='h0;eff_addr='h0;eff_addr_1='h0;eff_addr_2='h0;
+	unique case (mode) //{
+	//return_value='h0;eff_addr='h0;eff_addr_1='h0;eff_addr_2='h0;
 	REG	: begin //{
 			return_value = read_reg(b_w,register);	
 			if (src_dest == DST) begin //{
-			dst = {13{1'b0},register}; 
+			dst = {{13{1'b0}},register}; 
 			reg_vld = 1'b1;
 			mem_vld = 1'b0;
 			end //}
@@ -372,10 +396,10 @@ function word_t InstructionDecode::read_reg(op_size b_w,radr_t reg_num);
 word_t temp;
 unique case (b_w) //{
 	word_op : begin //{
-		return (regfile_h.Read('register_t(reg_num)));
+		return (regfile_h.Read(register_t'(reg_num)));
 	end //}
 	byte_op : begin //{  //sign extend the byte  
-	temp = regfile_h.Read('register_t(reg_num)); 
+	temp = regfile_h.Read(register_t'(reg_num)); 
 	return ({{MEM_WIDTH{temp[7]}},temp[7:0]});
 	end //}
 endcase //}
@@ -388,7 +412,8 @@ endfunction
 
 
 function word_t InstructionDecode::inc_dec_reg(op_size b_w,amod_t mode,radr_t register);
-word_op actual_value,inc_value,dec_value;
+
+word_t actual_value,inc_value,dec_value;
 actual_value = read_reg(word_op,register);
 
 assert((actual_value[0] == 1'b1) && ((register == `PC) || (register == `SP))) $warning ("PC or SP having an unaligned address");
@@ -418,7 +443,7 @@ unique case (mode) //{
 	A_DEC		: begin //{
 					if ((register == `PC) || (register == `SP)) begin //{
 						dec_value = actual_value - 2;
-						assert (register === `PC) $warning("using PC in a AUTO_DECREMENT mode")
+						assert (register === `PC) $warning("using PC in a AUTO_DECREMENT mode");
 					end //}
 					else begin//{
 						if (b_w == byte_op) begin //{
@@ -433,7 +458,7 @@ unique case (mode) //{
 			  end //}
 	A_DEC_DEF	: begin //{
 				assert(actual_value[0] == 1'b1) $warning("Unaligned Address in Deffered mode");
-				assert (register === `PC) $warning("using PC in a AUTO_DECREMENT_DEFFERED mode")
+				assert (register === `PC) $warning("using PC in a AUTO_DECREMENT_DEFFERED mode");
 				dec_value = actual_value - 2;
 				//regfile_h.Write('register_t(register),dec_value);	
 				`reg_write(register,dec_value);
@@ -453,9 +478,9 @@ endfunction
 `undef S 
 `undef D 
 `undef B 
-`undef OP(x,y) 
-`undef OP1(x)  
-`undef OPS(x,y) 
-`undef OPD(x,y)
-`undef OPB(x)  
-`undef reg_write(x,y)
+`undef OP 
+`undef OP1  
+`undef OPS 
+`undef OPD
+`undef OPB  
+`undef reg_write
