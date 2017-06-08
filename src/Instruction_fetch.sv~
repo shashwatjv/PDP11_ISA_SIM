@@ -5,7 +5,7 @@ InstructionTrans itxn_h;
 Memory mem_h;
 RegisterFile reg_h;
 
-function void new (Memory mem_h, RegisterFile reg_h);
+function new (Memory mem_h, RegisterFile reg_h);
 	this.mem_h = mem_h;
 	this.reg_h = reg_h;
 endfunction

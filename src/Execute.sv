@@ -86,6 +86,7 @@ class Execute;
    extern function void exe_sev(ref InstructionTrans t_h); 
    extern function void exe_sez(ref InstructionTrans t_h); 
    extern function void exe_sen(ref InstructionTrans t_h); 
+   extern function mem_addr_t compute_branch_target(ref InstructionTrans t_h);
 
 endclass
 
@@ -185,6 +186,7 @@ function void Execute::run(ref InstructionTrans t_h);
      SEV : exe_sev(t_h); 
      SEZ : exe_sez(t_h); 
      SEN : exe_sen(t_h); 
+     default  : `DEBUG("Unknown instruction")
 
    endcase
 	

@@ -22,8 +22,8 @@ endfunction
 function void InstructionFetch::GetInstruction();
 word_t tempPC;
 `DEBUG($sformatf("Fetching instruction from PC=%6o", tempPC))
-tempPC = reg_h.Read(PC); 
-// Check breakpoint array here
+tempPC = reg_h.Read(PC);
+itxn_h.instr_pc = tempPC;
 itxn_h.IR = mem_h.GetWord (tempPC, .ifetch(1));
 `DEBUG($sformatf("Fetched IR=%6o", itxn_h.IR))
 tempPC += 16'o2;
