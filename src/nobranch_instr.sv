@@ -388,9 +388,10 @@ function void Execute::exe_sen(ref InstructionTrans t_h);
 endfunction // exe_sen
 
 function void Execute::exe_halt(ref InstructionTrans t_h);
-   reg_h.Print();
-   $display("\n Instructions Executed = %d \n",ICOUNT);
-   $stop();
+//   reg_h.Print();
+//   $display("\n Instructions Executed = %d \n",ICOUNT);
+//   $stop();
+   ExitSim();
 endfunction // exe_halt
 
 function void Execute::exe_nop(ref InstructionTrans t_h);
