@@ -64,7 +64,7 @@ mem_access_t AccessType;
 word_t Data;
 
 `DEBUG($sformatf("Call to get-word: Address=%x", Address))
-AccessType = ifetch ? INSTRUCTION_FETCH : DATA_READ;
+AccessType = ifetch ? INST_FETCH : DATA_READ;
 
 assert (Address[0]==1'b0)
 else `INFO("SetWord:: Unaligned word access")
