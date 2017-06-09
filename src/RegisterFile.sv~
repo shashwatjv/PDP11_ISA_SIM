@@ -88,7 +88,7 @@ endfunction // SetV
 function void RegisterFile::SetC(logic C);
   this.Regs[PSW][`PSW_C] = C;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting C=%b", V))
+  `DEBUG($sformatf("Setting C=%b", C))
 endfunction // SetC
 
 function logic RegisterFile::GetN();

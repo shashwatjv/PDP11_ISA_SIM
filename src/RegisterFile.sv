@@ -34,6 +34,10 @@ extern function void HWrite(register_t Destination, word_t Data);
 endclass
 
 function void RegisterFile::HWrite(register_t Destination, word_t Data);
+mem_addr_t address;
+Regs[Destination][HWORD_SIZE-1:0] = Data [HWORD_SIZE-1:0];
+address = RegMemMap (Destination);
+mem_h.SetWord (address, Regs[Destination][HWORD_SIZE-1:0], .log(0));
 endfunction
 
 function word_t RegisterFile::Read (register_t Source);
