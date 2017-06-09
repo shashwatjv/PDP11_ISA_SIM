@@ -70,18 +70,18 @@ function void Execute::exe_bge (ref InstructionTrans t_h);
 endfunction
 
 function void Execute::exe_ble (ref InstructionTrans t_h);
-	`BR_FUNC((t_H.Z | (t_h.N ^ t_h.V))===1)
+	`BR_FUNC((t_h.Z | (t_h.N ^ t_h.V))===1)
 endfunction
 
 function void Execute::exe_bgt (ref InstructionTrans t_h);
-	`BR_FUNC((t_H.Z | (t_h.N ^ t_h.V))===0)
+	`BR_FUNC((t_h.Z | (t_h.N ^ t_h.V))===0)
 endfunction
 
 
 // UNSIGNED CONDITIONAL BRANCHES
 
 function void Execute::exe_bhi (ref InstructionTrans t_h);
-	`BR_FUNC((t_H.C & t_h.Z)===0)
+	`BR_FUNC((t_h.C & t_h.Z)===0)
 endfunction
 
 function void Execute::exe_blos (ref InstructionTrans t_h);
@@ -92,18 +92,42 @@ endfunction
 // JUMP INSTRUCTION
 
 function void Execute::exe_jmp (ref InstructionTrans t_h);
-// BRANCH TRACE FILE	
+reg_h.Write(PC, dest_operand);
+// Write to PC
+t_h.br_taken = T;
+t_h.tgt_addr = t_h.dest_operand;
+`BR_TRACE	
 endfunction
 
 
 // SUBROUTINES
 
 function void Execute::exe_jsr (ref InstructionTrans t_h);
-// BRANCH TRACE FILE
+// Push REG on stack (stack <- src_operand)
+word_t sp_temp;
+sp_temp = reg_h.Read(SP) - 16'o2;
+reg_h.Write(SP, sp_temp);
+mem_h.SetWord (sp_temp, t_h.src_operand);
+// Save return address in register (dest <- pc)
+reg_h.Write(register_t'(t_h.dest), reg_h.Read(PC));
+// Transfer control to subroutin (pc <- dest_operand)
+reg_h.Write(PC, t_h.dest_operand);
+// Write to branch trace file
+t_h.br_taken = T;
+t_h.tgt_addr = t_h.dest_operand;
+`BR_TRACE
 endfunction
 
 function void Execute::exe_rts (ref InstructionTrans t_h);
-// BRANCH TRACE FILE
+word_t sp_temp;
+// Restore program control to caller (pc <- src_operand)
+reg_h.Write(PC, t_h.src_operand);
+// Pop the contents of top of stack into reg
+sp_temp = reg_h.Read(SP);
+reg_h.Write(register_t'(t_h.dest), mem_h.GetWord(sp_temp));
+reg_h.Write(SP, sp_temp-16'o2);
+// Write to branch trace file
+t_h.br_taken = T;
+t_h.tgt_addr = t_h.src_operand;
+`BR_TRACE
 endfunction
-
-
