@@ -94,14 +94,14 @@ task InstructionDecode::identify_inst_format();
 
 	priority case (inst.IR) inside //{
 
-	'o000000	:	begin //{
+	16'o000000	:	begin //{
 					`OP1(HALT);
 					end //}
 	16'o00020?	:	begin //{
 					`OP1(RTS);
 					r_subroutine();
 					end //}
-	16'o0004??	:	begin //{
+	16'o004???	:	begin //{
 					`OP1(JSR);
 					subroutine();
 					end //}
