@@ -110,9 +110,9 @@ function void Execute::wback(op_size bw, ref InstructionTrans t_h);
 
   if(t_h.write_mem_en)
     if(bw == byte_op) 
-      mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 1);
+      mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 0);
     else if(bw == word_op)
-      mem_h.SetWord(mem_addr_t'(t_h.dest), result, 1);
+      mem_h.SetWord(mem_addr_t'(t_h.dest), result, 0);
   else if(t_h.write_reg_en)
     if(bw == byte_op) 
       reg_h.HWrite(register_t'(t_h.dest), result);
