@@ -46,7 +46,7 @@ package common_pkg;
 	
 	// FILE IO
 	int debug=1, info=1, console=0;
-	typedef enum {DATA_READ=0, DATA_WRITE=1, INSTRUCTION_FETCH=2} mem_access_t;				  	
+	typedef enum {DATA_READ=0, DATA_WRITE=1, INST_FETCH=2} mem_access_t;				  	
 	//integer mem_trace_f, debug_mem_f, load_mem_f, log_f;
 	integer mem_trace_f = $fopen("traces/mem_trace.f", "w");
 	integer debug_mem_f = $fopen("traces/debug_mem_trace.f", "w");
