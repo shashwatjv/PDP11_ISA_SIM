@@ -20,6 +20,7 @@ endfunction
 extern function word_t Read (register_t Source);
 extern function void Write(register_t Destination, word_t Data);
 extern function void Examine (register_t Destination); 
+extern function void Regress ();
 extern function void Print ();
 extern function void SetN(logic);
 extern function void SetZ(logic);
@@ -34,6 +35,10 @@ extern function void HWrite(register_t Destination, word_t Data);
 endclass
 
 function void RegisterFile::HWrite(register_t Destination, word_t Data);
+mem_addr_t address;
+Regs[Destination][HWORD_SIZE-1:0] = Data [HWORD_SIZE-1:0];
+address = RegMemMap (Destination);
+mem_h.SetWord (address, Regs[Destination][HWORD_SIZE-1:0], .log(0));
 endfunction
 
 function word_t RegisterFile::Read (register_t Source);
@@ -65,6 +70,11 @@ Examine (R5);
 Examine (SP);
 Examine (PC);
 Examine (PSW);
+endfunction
+
+function void RegisterFile::Regress (); // Print the register values at end of simulation
+foreach(Regs[i])
+`DEBUG_REG_TRACE($sformatf("%0d %6o", i, Regs[i]))
 endfunction
 
 function void RegisterFile::SetN(logic N);

@@ -52,6 +52,7 @@ package common_pkg;
 	integer debug_mem_f = $fopen("traces/debug_mem_trace.f", "w");
 	integer load_mem_f = $fopen("traces/load_mem_trace.f", "w");
 	integer log_f = $fopen("output.log", "w");
+	integer br_f = $fopen("traces/branch_trace.f", "w");
 				  
 	typedef logic [2:0] op_t; // instruction opcode
 	typedef logic [1:0] op2_t; // sub opcode 

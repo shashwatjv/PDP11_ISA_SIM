@@ -1,0 +1,31 @@
+# vsim -c -novopt -do "run -all" "+IFILE=../../pdp/testarith/simpleMove.asc" "+IPC=000004" top 
+# Start time: 02:26:29 on Jun 09,2017
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# //  Questa Sim-64
+# //  Version 10.4c linux_x86_64 Jul 19 2015
+# //
+# //  Copyright 1991-2015 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //  THIS DOCUMENT CONTAINS TRADE SECRETS AND COMMERCIAL OR FINANCIAL
+# //  INFORMATION THAT ARE PRIVILEGED, CONFIDENTIAL, AND EXEMPT FROM
+# //  DISCLOSURE UNDER THE FREEDOM OF INFORMATION ACT, 5 U.S.C. SECTION 552.
+# //  FURTHERMORE, THIS INFORMATION IS PROHIBITED FROM DISCLOSURE UNDER
+# //  THE TRADE SECRETS ACT, 18 U.S.C. SECTION 1905.
+# //
+# Refreshing /home/ukhanna/common/smb_files/PDP11_ISA_SIM/src/work.top
+# Refreshing /home/ukhanna/common/smb_files/PDP11_ISA_SIM/src/work.Memory_sv_unit
+# Refreshing /home/ukhanna/common/smb_files/PDP11_ISA_SIM/src/work.common_pkg
+# Loading sv_std.std
+# Loading work.common_pkg
+# Loading work.Memory_sv_unit
+# Loading work.top
+# run -all
+# initPC=000004
+# ** Note: $finish    : Execute.sv(104)
+#    Time: 0 ns  Iteration: 0  Instance: /top
+# End time: 02:26:29 on Jun 09,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1

@@ -9,7 +9,7 @@ lib:
 	mkdir traces
 		
 compile:
-	vlog -mfcu -f file_sv.f 
+	vlog -mfcu -f file_sv.f -l compile.log
 sim:
 	vsim -c -novopt -do "run -all" +IFILE=$(IFILE)  +IPC=$(IPC) top
 	
