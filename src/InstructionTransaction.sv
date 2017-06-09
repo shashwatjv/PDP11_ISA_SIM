@@ -53,7 +53,13 @@ function string InstructionTrans::print();
 //function InstructionTrans::print();
 
 string msg;
-msg = $sformatf("ID:%0d  PC:%o  INSTRUCTION:%o  OPCODE:%s  SRC:%o  DEST:%o  OFFSET:%o  RESULT:%o  OLD_PSW:%p  NEW_PSW:%p\n",inst_id,instr_pc, IR, opcode_ex,src_operand,dest_operand,offset,result,old_psw,new_psw);
+msg = $sformatf("\n\n\t ******** INST XACTION DETAILS *********\n
+                 ID:%0d  PC:%o  INSTRUCTION:%o  OPCODE:%s\n  
+                 SRC_OP:%o  DEST_OP:%o  OFFSET:%o\n 
+                 DEST:%o RESULT:%o WR_MEM:%o WR_REG:%o\n 
+                 OLD_PSW:%p  NEW_PSW:%p\n
+                 **************************************\n"
+                 ,inst_id,instr_pc, IR, opcode_ex,src_operand,dest_operand,offset,dest,result,write_mem_en,write_reg_en,old_psw,new_psw);
 `DEBUG(msg)
 return(msg);
 
