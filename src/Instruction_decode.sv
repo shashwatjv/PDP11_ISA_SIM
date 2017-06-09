@@ -149,7 +149,7 @@ task InstructionDecode::identify_inst_format();
 					`OP1(SWAB);
 					`S;
 					end //}
-	16'o0004??	:	begin //{
+	{8'd1, 8'h??}	:	begin //{
 					`OPB(BR);
 					end //}
 	16'o0010??	:	begin //{
