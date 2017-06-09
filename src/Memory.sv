@@ -105,7 +105,8 @@ function void Memory::ExamineWord (mem_addr_t Address); // prints the contents o
 endfunction
 
 
-function void Memory::Print (bit Mode); // 
+function void Memory::Print (bit Mode); // Print Contents of valid memory locations
+`INFO("Contents of Memory")
 endfunction
 
 
