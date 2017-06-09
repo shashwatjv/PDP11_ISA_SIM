@@ -44,7 +44,7 @@ endfunction
 function word_t RegisterFile::Read (register_t Source);
 word_t Data;
 Data = Regs[Source];
-`DEBUG($sformatf("Read %6o from %s", Data, Source))
+//`DEBUG($sformatf("Read %6o from %s", Data, Source))
 return Data;
 endfunction
 
