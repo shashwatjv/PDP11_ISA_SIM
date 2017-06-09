@@ -105,20 +105,27 @@ function void Execute::ExitSim();
 endfunction
 
 function void Execute::wback(op_size bw, ref InstructionTrans t_h);
+   register_t rid;
 
+   rid = register_t'(t_h.dest);
+   `DEBUG($sformatf("\n typecast = %s,%d,%6o",rid,rid,t_h.dest))
+   
   // store back result in xaction for info/debug
   t_h.result=result;
 
-  if(t_h.write_mem_en)
-    if(bw == byte_op) 
-      mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 0);
-    else if(bw == word_op)
-      mem_h.SetWord(mem_addr_t'(t_h.dest), result, 0);
-  else if(t_h.write_reg_en)
-    if(bw == byte_op) 
-      reg_h.HWrite(register_t'(t_h.dest), result);
-    else if(bw == word_op)
-      reg_h.Write(register_t'(t_h.dest), result);
+   if(t_h.write_mem_en) begin
+      if(bw == byte_op) begin
+	 mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 0);
+      end else if(bw == word_op) begin
+	 mem_h.SetWord(mem_addr_t'(t_h.dest), result, 0);
+      end
+   end else if(t_h.write_reg_en) begin
+      if(bw == byte_op)  begin
+	 reg_h.HWrite(register_t'(t_h.dest), result);
+      end else if(bw == word_op) begin
+	 reg_h.Write(register_t'(t_h.dest), result);
+      end
+   end
 endfunction
   
 function void Execute::run(ref InstructionTrans t_h);
@@ -200,6 +207,7 @@ function void Execute::run(ref InstructionTrans t_h);
 	
    // store previous PSW for log/debug
    t_h.new_psw=reg_h.Read(PSW);
+   reg_h.Print();
 
    // do exit if decoded halt instruction
    // ExitSim();
