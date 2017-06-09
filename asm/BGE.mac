@@ -1,0 +1,34 @@
+		.PSECT A, REL
+
+A:	.WORD 4
+B:	.WORD 5
+C:	.WORD 1
+D:	.WORD 2
+
+
+START :
+	CLC
+	CLV
+	CLZ
+	CLN
+	BGE SUM ; will be taken (N0,V0)
+	HALT
+	SEN
+SUM:	ADD A,B
+	SEV
+	SEZ
+	SEC
+	BGE SETC ; will not be taken(N0,V1)
+	CLV
+	SEN
+	BGE CLRC ; will not be taken(N1,V0)
+SETC:	SEC
+	SEN
+CLRC:	SEZ
+	SEV
+	BGE SUM1; take (N1,V1)
+	HALT
+SUM1:	ADD C,D
+	HALT
+	.END	START
+

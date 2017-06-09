@@ -1,0 +1,44 @@
+       1                                		.PSECT A, REL
+       2                                ;    **************************************
+       3                                ;    * CALCULATE THE NTH FIBONACCI NUMBER *
+       4                                ;    **************************************
+       5                                ; 
+       6                                ;OLD:      .WORD     0.             ;initialise OLD, NEW, and FIBO
+       7                                ;NEW:      .WORD     0.             
+       8                                ;FIBO:     .WORD     0.
+       9                                ;N:        .WORD     6.             ;initialise N
+      10                                ;
+      11                                ;START:                             ;program starts executing here
+      12                                ;          MOV       #1.,OLD        ;set OLD, FIBO to 1
+      13                                ;          MOV       #1.,FIBO
+      14                                ;WHILE:    CMP       N, #1.         ;WHILE N > 1 DO
+      15                                ;          BLE       WEND           
+      16                                ;          MOV       FIBO,NEW
+      17                                ;          ADD       OLD,NEW        ;    NEW = FIBO + OLD
+      18                                ;          MOV       FIBO,OLD       ;    OLD = FIBO    
+      19                                ;          MOV       NEW,FIBO       ;    FIBO = NEW
+      20                                ;          DEC       N              ;    N = N - 1
+      21                                ;          BR        WHILE          ;WEND
+      22                                ;WEND:     HALT                     ;STOP
+      23                                ;          .END      START
+      24                                
+      25                                
+      26                                
+      27 000000 000004                  A:	.WORD 4.
+      28 000002 000005                  B:	.WORD 5.
+      29                                
+      30                                
+      31                                START :
+      32 000004 000241                  	CLC
+      33 000006 000242                  	CLV
+      34 000010 000244                  	CLZ
+      35 000012 000250                  	CLN
+      36 000014 000401                  	BR SET
+      37 000016 000270                  	SEN
+      38 000020 000264                  SET:	SEZ
+      39 000022 000262                  	SEV
+      40 000024 000261                  	SEC
+      41 000026 000000                  	HALT
+      42                                	.END	START
+      43                                
+      43                                

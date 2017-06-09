@@ -1,0 +1,22 @@
+		.PSECT A, REL
+
+A:	.WORD 4.
+B:	.WORD 5.
+
+
+START :
+	CLC
+	CLV
+	CLZ
+	CLN
+	BNE SET
+	SEN
+SET:	ADD A,B
+	SEZ
+	BNE SETC
+	SEV
+SETC:	SEC
+	SEN
+	HALT
+	.END	START
+
