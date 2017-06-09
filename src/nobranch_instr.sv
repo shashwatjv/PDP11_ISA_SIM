@@ -388,14 +388,14 @@ function void Execute::exe_sen(ref InstructionTrans t_h);
 endfunction // exe_sen
 
 function void Execute::exe_halt(ref InstructionTrans t_h);
-//   reg_h.Print();
-//   $display("\n Instructions Executed = %d \n",ICOUNT);
-//   $stop();
+   reg_h.Print();
+   $display("\n Instructions Executed = %0d \n",ICOUNT);
    ExitSim();
+   $stop();
 endfunction // exe_halt
 
 function void Execute::exe_nop(ref InstructionTrans t_h);
-   $display("\n Executed NOP at Instruction Count = %d \n",ICOUNT);
+   $display("\n Executed NOP at Instruction Count = %0d \n",ICOUNT);
 endfunction // exe_nop
 
 
