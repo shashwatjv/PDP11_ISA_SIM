@@ -105,10 +105,6 @@ function void Execute::ExitSim();
 endfunction
 
 function void Execute::wback(op_size bw, ref InstructionTrans t_h);
-   register_t rid;
-
-   rid = register_t'(t_h.dest);
-   `DEBUG($sformatf("\n typecast = %s,%d,%6o",rid,rid,t_h.dest))
    
   // store back result in xaction for info/debug
   t_h.result=result;
