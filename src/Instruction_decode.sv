@@ -273,8 +273,12 @@ task InstructionDecode::single_op();
 	sop_t s_ir = inst.IR;
 `INFO($sformatf("%s Single op:src:AM:%s Reg:%s",name,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
 	//assert (!(inst.opcode_ex == JMP) && (s_ir.dmod == REG)) $fatal ("REGISTER MODE ILLEGAL IN JUMP");
+	assert (!((inst.opcode_ex == JMP) && (s_ir.dmod == REG))) else $warning ("REGISTER MODE ILLEGAL IN JUMP");
+	if ((inst.opcode_ex == JMP) && (s_ir.dmod == REG_DEF)) begin //{
+	decode_dest_am(s_ir.sz,REG,s_ir.dreg);
+	end //}
 	decode_dest_am(s_ir.sz,amod_t'(s_ir.dmod),s_ir.dreg);
-	//assert ((inst.opcode_ex == JMP) && (inst.dest_operand[0] == 1'b1)) $error ("Boundary error condition access to odd address for a JUMP");
+	assert (!((inst.opcode_ex == JMP) && (inst.dest_operand[0] == 1'b1))) else $warning ("Boundary error condition access to odd address for a JUMP");
 endtask
 
 ///offset - has the shifted sign extended value 
@@ -475,15 +479,12 @@ actual_value = read_reg(word_op,register);
 `DEBUG($sformatf("%s inc_dec_reg:Actual Value=16'o%o",name,actual_value))
 
 //assert(!(actual_value[0] == 1'b1) && ((register == `PC) || (register == `SP)))  $warning ("PC or SP having an unaligned address");
-
+//assume ((actual_value[0] == 1'b0) && ((register == `PC) || (register == `SP)))  $warning ("PC or SP having an unaligned address");
 
 ///assert((actual_value[0] =  ((register == `PC) || (register == `SP)) ? );// $warning ("PC or SP having an unaligned address");
-
-//if((register == `PC) || (register == `SP)) 
-//begin
-//assert(actual_value[0] != 1'b1)
-//else $warning ("PC or SP having an unaligned address");
-//end
+if((register == `PC) || (register == `SP)) begin //{
+assume (actual_value[0] == 1'b0) else $warning ("PC or SP having an unaligned address");
+end //}
 
 unique case (mode) //{
 	A_INCR		: begin //{ word increments if the registers are PC or SP or the opcode is a word instruction  
