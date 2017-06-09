@@ -53,13 +53,15 @@ Authors: Harathi, Khanna, Vinchurkar
 `define PSW_C 0
 
 
-`define BR_TRACE $fdisplay(br_f, "PC: %6o\tTYPE: %s\tTGT: %6o\t%s", t_h.instr_pc, t_h.opcode_ex, tgt_addr, t_h.br_taken);
+`define BR_TRACE $fdisplay(br_f, "PC: %6o\tTYPE: %s\tTGT: %6o\t%s", t_h.instr_pc, t_h.opcode_ex, t_h.tgt_addr, t_h.br_taken);
 
 `define one 1
 
 `define BR_FUNC(cond) \
-	mem_addr_t tgt_addr;\
-	tgt_addr = compute_branch_target (t_h);\
+	//mem_addr_t tgt_addr;\
+	//tgt_addr = compute_branch_target (t_h);\
+	t_h.tgt_addr = compute_branch_target (t_h);\
 	t_h.br_taken = (cond) ? T:NT; \
-	if (t_h.br_taken) reg_h.Write(PC, tgt_addr); \
+	//if (t_h.br_taken) reg_h.Write(PC, tgt_addr); \
+	if (t_h.br_taken) reg_h.Write(PC, t_h.tgt_addr); \
 	`BR_TRACE
