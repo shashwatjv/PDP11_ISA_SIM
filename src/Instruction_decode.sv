@@ -26,15 +26,11 @@ Authors: Harathi, Khanna, Vinchurkar
 
 `define OP1(a) inst.opcode_ex = a
 
-
-//`define OPS(a,b) inst.opcode_ex = bw ? a : b;single_op()
 `define OPS(a,b) inst.opcode_ex = inst.IR[15] ? a : b;single_op()
 
-//`define OPD(a,b) inst.opcode_ex = bw ? a : b;double_op()
 `define OPD(a,b) inst.opcode_ex = inst.IR[15] ? a : b;double_op()
 
 `define OPB(a) inst.opcode_ex = a;branch()		
-
 
 `define reg_write(x,y) regfile_h.Write(register_t'(x),y)  
 
@@ -49,7 +45,6 @@ InstructionTrans inst;
 typedef enum {SRC,DST} am;
 typedef logic [7:0] radr_t;
 
-//function new(Memory mem_h, RegisterFile regfile_h, InstructionTrans inst);
 function new(Memory mem_h, RegisterFile regfile_h);
 this.mem_h = mem_h;
 this.regfile_h = regfile_h;
@@ -65,7 +60,6 @@ extern task branch();
 extern task r_subroutine();
 extern task decode_src_am(op_size b_w,amod_t am_s,radr_t rs_num);
 extern task decode_dest_am(op_size b_w,amod_t am_d,radr_t rd_num);
-//extern function void halt();
 extern task fetch_operand(input op_size b_w,amod_t mode,radr_t register,am src_dest,output word_t return_value,word_t dst,bit reg_vld,bit mem_vld);
 extern function word_t read_mem (op_size b_w,mem_addr_t addr);  
 extern function word_t read_reg (op_size b_w,radr_t reg_num); 
@@ -348,7 +342,6 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 
 	return_value='h0;eff_addr='h0;eff_addr_1='h0;eff_addr_2='h0;
 	unique case (mode) //{
-	//return_value='h0;eff_addr='h0;eff_addr_1='h0;eff_addr_2='h0;
 	REG	: begin //{
 			return_value = read_reg(b_w,register);	
 			`DEBUG($sformatf("%s Reg AM:Value in the register=16'o%o",name,return_value))
@@ -362,7 +355,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 	REG_DEF	: begin //{
 			eff_addr = read_reg(word_op,register);
 			`DEBUG($sformatf("%s Reg Def AM:Effective Address=16'o%o",name,eff_addr))
-			return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); 
+			//if (((inst.opcode_ex == MOV) || (inst.opcode_ex == MOVB)) && ()) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); 
+	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); else return_value = eff_addr; 
 			if (src_dest == DST) begin //{
 			dst = eff_addr;
 			mem_vld = 1'b1;
@@ -374,7 +368,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 	A_INCR,A_DEC	: begin //{
 				eff_addr = inc_dec_reg(b_w,mode,register);
 			`DEBUG($sformatf("%s Auto Incr/Decr AM:Effective Address=16'o%o",name,eff_addr))
-				return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); 
+				//return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); 
+	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); else return_value = eff_addr; 
 				if (src_dest == DST) begin //{
 				dst = eff_addr;
 				mem_vld = 1'b1;
@@ -389,7 +384,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 					//assert(eff_addr[0] == 0) ; else $warning("Unaligned acess to Memory");
 					eff_addr_1 = read_mem(word_op,eff_addr);
 			`DEBUG($sformatf("%s,Register Auto Incr/Decr Deffered AM:Effective Address_1=16'o%o",name,eff_addr_1))
-					return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
+					//return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
+	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); else return_value = eff_addr_1; 
 					if (src_dest == DST) begin //{
 					dst = eff_addr_1;
 					mem_vld = 1'b1;
@@ -405,7 +401,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 			`DEBUG($sformatf("%s Reg Indexed AM:Effective Address=16'o%o",name,eff_addr))
 					eff_addr_1 = eff_addr + disp;
 			`DEBUG($sformatf("%s Reg Indexed AM:Effective Address_1=16'o%o",name,eff_addr_1))
-					return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
+					//return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
+	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); else return_value = eff_addr_1; 
 					if (src_dest == DST) begin //{
 					dst = eff_addr_1;
 					mem_vld = 1'b1;
@@ -423,7 +420,8 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 			`DEBUG($sformatf("%s Auto Indexed Deffered AM:Effective Address_1=16'o%o",name,eff_addr_1))
 					eff_addr_2 = read_mem(word_op,eff_addr_1);
 			`DEBUG($sformatf("%s Auto Indexed Deffered AM:Effective Address_2=16'o%o",name,eff_addr_2))
-					return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); 
+	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); else return_value = eff_addr_2; 
+					//return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); 
 					if (src_dest == DST) begin //{
 					dst = eff_addr_2;
 					mem_vld = 1'b1;
@@ -482,9 +480,9 @@ actual_value = read_reg(word_op,register);
 //assume ((actual_value[0] == 1'b0) && ((register == `PC) || (register == `SP)))  $warning ("PC or SP having an unaligned address");
 
 ///assert((actual_value[0] =  ((register == `PC) || (register == `SP)) ? );// $warning ("PC or SP having an unaligned address");
-if((register == `PC) || (register == `SP)) begin //{
-assume (actual_value[0] == 1'b0) else $warning ("PC or SP having an unaligned address");
-end //}
+//if((register == `PC) || (register == `SP)) begin //{
+//assume (actual_value[0] == 1'b0) else $warning ("PC or SP having an unaligned address");
+//end //}
 
 unique case (mode) //{
 	A_INCR		: begin //{ word increments if the registers are PC or SP or the opcode is a word instruction  
@@ -499,7 +497,6 @@ unique case (mode) //{
 						inc_value = actual_value + 2;
 						end //}
 					end //}
-				//regfile_h.Write('register_t(register),inc_value);
 			`DEBUG($sformatf("%s Auto Incr AM:inc_value=16'o%o",name,inc_value))
 				`reg_write(register,inc_value);
 		 	  end //}
@@ -507,7 +504,6 @@ unique case (mode) //{
 				//assert(actual_value[0] == 1'b1) $warning("Unaligned Address in Deffered mode");
 				inc_value = actual_value + 2;
 			`DEBUG($sformatf("%s Auto Incr Deffered AM:inc_value=16'o%o",name,inc_value))
-				//regfile_h.Write('register_t(register),inc_value);	
 				`reg_write(register,inc_value);
 			  end //}
 	A_DEC		: begin //{
@@ -524,14 +520,12 @@ unique case (mode) //{
 						end //}
 					end //}
 			`DEBUG($sformatf("%s Auto Decr AM:dec_value=16'o%o",name,dec_value))
-				//regfile_h.Write('register_t(register),dec_value);	
 				`reg_write(register,dec_value);
 			  end //}
 	A_DEC_DEF	: begin //{
 				//assert(actual_value[0] == 1'b1) $warning("Unaligned Address in Deffered mode");
 				//assert (register === `PC) $warning("using PC in a AUTO_DECREMENT_DEFFERED mode");
 				dec_value = actual_value - 2;
-				//regfile_h.Write('register_t(register),dec_value);	
 			`DEBUG($sformatf("%s Auto Decr Def AM:dec_value=16'o%o",name,dec_value))
 				`reg_write(register,dec_value);
 			  end //}
