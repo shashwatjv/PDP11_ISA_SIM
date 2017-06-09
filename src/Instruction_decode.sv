@@ -149,49 +149,49 @@ task InstructionDecode::identify_inst_format();
 					`OP1(SWAB);
 					`S;
 					end //}
-	{8'd1, 8'h??}	:	begin //{
+	{8'h01,8'h??}	:	begin //{
 					`OPB(BR);
 					end //}
-	16'o0010??	:	begin //{
+	{8'h02,8'h??}	:	begin //{
 					`OPB(BNE);
 					end //}
-	16'o0014??	:	begin //{
+	{8'h03,8'h??}	:	begin //{
 					`OPB(BEQ);
 					end //}
-	16'o0020??	:	begin //{
+	{8'h04,8'h??}	:	begin //{
 					`OPB(BGE);
 					end //}
-	16'o0024??	:	begin //{
+	{8'h05,8'h??}	:	begin //{
 					`OPB(BLT);
 					end //}
-	16'o0030??	:	begin //{
+	{8'h06,8'h??}	:	begin //{
 					`OPB(BGT);
 					end //}
-	16'o0034??	:	begin //{
+	{8'h07,8'h??}	:	begin //{
 					`OPB(BLE);
 					end //}
-	16'o1000??	:	begin //{
+	{8'hA0,8'h??}	:	begin //{
 					`OPB(BPL);
 					end //}
-	16'o1004??	:	begin //{
+	{8'hA1,8'h??}	:	begin //{
 					`OPB(BMI);
 					end //}
-	16'o1010??	:	begin //{
+	{8'hA2,8'h??}	:	begin //{
 					`OPB(BHI);
 					end //}
-	16'o1014??	:	begin //{
+	{8'hA3,8'h??}	:	begin //{
 					`OPB(BLOS);
 					end //}
-	16'o1020??	:	begin //{
+	{8'hA4,8'h??}	:	begin //{
 					`OPB(BVC);
 					end //}
-	16'o1024??	:	begin //{
+	{8'hA5,8'h??}	:	begin //{
 					`OPB(BVS);
 					end //}
-	16'o1030??	:	begin //{
+	{8'hA6,8'h??}	:	begin //{
 					`OPB(BCC);
 					end //}
-	16'o1030??	:	begin //{
+	{8'hA7,8'h??}	:	begin //{
 					`OPB(BCS);
 					end //}
 	16'o?1????	:	begin //{
