@@ -99,6 +99,7 @@ endfunction
 
 function void Execute::ExitSim();
    `INFO($sformatf("ExitSim:: Total Instructions Executed = %0d", ICOUNT))
+   reg_h.Regress();
    assert (ICOUNT===txn.inst_id);
    $finish;
 endfunction

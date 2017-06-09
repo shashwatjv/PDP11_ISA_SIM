@@ -20,6 +20,7 @@ endfunction
 extern function word_t Read (register_t Source);
 extern function void Write(register_t Destination, word_t Data);
 extern function void Examine (register_t Destination); 
+extern function void Regress ();
 extern function void Print ();
 extern function void SetN(logic);
 extern function void SetZ(logic);
@@ -69,6 +70,11 @@ Examine (R5);
 Examine (SP);
 Examine (PC);
 Examine (PSW);
+endfunction
+
+function void RegisterFile::Regress (); // Print the register values at end of simulation
+foreach(Regs[i])
+`DEBUG_REG_TRACE($sformatf("%0d %6o", i, Regs[i]))
 endfunction
 
 function void RegisterFile::SetN(logic N);
