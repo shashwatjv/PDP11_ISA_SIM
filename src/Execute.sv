@@ -1,4 +1,4 @@
-`include "common_pkg.sv";
+`include "common_pkg.sv"
 
 class Execute;
    longint unsigned ICOUNT;
@@ -104,6 +104,10 @@ function void Execute::ExitSim();
 endfunction
 
 function void Execute::wback(op_size bw, ref InstructionTrans t_h);
+
+  // store back result in xaction for info/debug
+  t_h.result=result;
+
   if(t_h.write_mem_en)
     if(bw == byte_op) 
       mem_h.SetByte(mem_addr_t'(t_h.dest), byte_t'(result), 1);
@@ -118,6 +122,9 @@ endfunction
   
 function void Execute::run(ref InstructionTrans t_h);
    IncrementCount();
+
+   // store previous PSW for log/debug
+   t_h.old_psw=reg_h.Read(PSW);
 
    case(t_h.opcode_ex)
 
@@ -190,6 +197,9 @@ function void Execute::run(ref InstructionTrans t_h);
 
    endcase
 	
+   // store previous PSW for log/debug
+   t_h.new_psw=reg_h.Read(PSW);
+
    // do exit if decoded halt instruction
    // ExitSim();
 endfunction // run
