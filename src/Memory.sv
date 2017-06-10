@@ -63,7 +63,7 @@ function word_t Memory::GetWord (mem_addr_t Address, bit ifetch=0, bit log=1);
 mem_access_t AccessType;
 word_t Data;
 
-`DEBUG($sformatf("Call to get-word: Address=%x", Address))
+`DEBUG($sformatf("Call to get-word: Address=%o", Address))
 AccessType = ifetch ? INST_FETCH : DATA_READ;
 
 assert (Address[0]==1'b0)
@@ -73,7 +73,7 @@ for (int i=0; i<(WORD_SIZE/MEM_WIDTH); i++) begin
 //for (int i=0; i<2; i++) begin
 	Data[(i*MEM_WIDTH)+:MEM_WIDTH] = mem[Address+i];
 	valid[Address+i] = 1;
-	`DEBUG($sformatf("Inner loop: Data=%6o, Mem=%6o", Data, mem[Address+i]))
+	//`DEBUG($sformatf("Inner loop: Data=%6o, Mem=%6o", Data, mem[Address+i]))
 end
 
 if (log===1) begin
