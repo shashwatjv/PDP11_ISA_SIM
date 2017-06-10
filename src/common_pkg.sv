@@ -45,7 +45,7 @@ package common_pkg;
 	typedef enum bit {word_op, byte_op} op_size;
 	
 	// FILE IO
-	int debug=1, info=1, console=0;
+	int debug=1, info=1, console=0, print_reg=0, print_mem=0;
 	typedef enum {DATA_READ=0, DATA_WRITE=1, INST_FETCH=2} mem_access_t;				  	
 	//integer mem_trace_f, debug_mem_f, load_mem_f, log_f;
 	integer mem_trace_f = $fopen("traces/mem_trace.f", "w");
@@ -54,6 +54,7 @@ package common_pkg;
 	integer load_mem_f = $fopen("traces/load_mem_trace.f", "w");
 	integer log_f = $fopen("output.log", "w");
 	integer br_f = $fopen("traces/branch_trace.f", "w");
+	integer txn_f = $fopen("transaction.log","w");
 				  
 	typedef logic [2:0] op_t; // instruction opcode
 	typedef logic [1:0] op2_t; // sub opcode 
