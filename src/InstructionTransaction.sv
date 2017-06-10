@@ -55,14 +55,15 @@ function string InstructionTrans::print();
 
 string msg;
 msg = $sformatf("\n\n\t ******** INST XACTION DETAILS *********\n
-                 ID:%0d  PC:%o  INSTRUCTION:%o  OPCODE:%s\n  
-                 SRC_OP:%o  DEST_OP:%o  OFFSET:%o\n 
-                 DEST:%o RESULT:%o WR_MEM:%o WR_REG:%o\n
-		 TGT_ADDR:%o, BR_TAKEN:%s\n
-                 OLD_PSW:%p  NEW_PSW:%p\n
+                   ID:%0d  PC:%o  INSTRUCTION:%o  OPCODE:%s\n
+                   SRC_OP:%o  DEST_OP:%o  OFFSET:%o\n
+                   DEST:%o RESULT:%o WR_MEM:%o WR_REG:%o\n
+		   TGT_ADDR:%o, BR_TAKEN:%s\n
+                   OLD_PSW:%p  NEW_PSW:%p\n
                  **************************************\n"
                  ,inst_id,instr_pc, IR, opcode_ex,src_operand,dest_operand,offset,dest,result,write_mem_en,write_reg_en,tgt_addr,br_taken,old_psw,new_psw);
 `DEBUG(msg)
+`TXN_TRACE(msg)
 return(msg);
 
 endfunction 
