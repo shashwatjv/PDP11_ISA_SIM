@@ -14,5 +14,5 @@ sim:
 	vsim -c -novopt -do "run -all" +IFILE=$(IFILE)  +IPC=$(IPC) top
 	
 clean:
-	rm -rf work output.log traces
+	rm -rf work output.log traces transaction.log
 
