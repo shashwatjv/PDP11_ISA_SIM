@@ -54,15 +54,15 @@ mem_addr_t address;
 address = RegMemMap (Destination);
 mem_h.SetWord (address, Data, .log(0));
 Regs[Destination]=Data;
-`DEBUG($sformatf("Writing %6o to %s", Data, Destination))
+`DEBUG($sformatf("\tWriting %6o to %s", Data, Destination))
 endfunction
 
 function void RegisterFile::Examine (register_t Destination); // Print a particular register for debug
-`DEBUG($sformatf("Regs[%s]: %6o", Destination, Read(Destination)))
+`DEBUG($sformatf("\tRegs[%s]: %6o", Destination, Read(Destination)))
 endfunction
 
 function void RegisterFile::Examine_PSW();
-`DEBUG($sformatf("Regs[%s]: N-%b | Z-%b | V-%b | C-%b", PSW,Regs[PSW][`PSW_N],Regs[PSW][`PSW_Z],Regs[PSW][`PSW_V],Regs[PSW][`PSW_C]))
+`DEBUG($sformatf("\tRegs[%s]: N-%b | Z-%b | V-%b | C-%b", PSW,Regs[PSW][`PSW_N],Regs[PSW][`PSW_Z],Regs[PSW][`PSW_V],Regs[PSW][`PSW_C]))
 endfunction
 
 function void RegisterFile::Print (); // Print the contents of register file in octal
@@ -85,25 +85,25 @@ endfunction
 function void RegisterFile::SetN(logic N);
   Regs[PSW][`PSW_N] = N;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting N=%b", N))
+  `DEBUG($sformatf("\tSetting N=%b", N))
 endfunction // SetN
 
 function void RegisterFile::SetZ(logic Z);
   this.Regs[PSW][`PSW_Z] = Z;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting Z=%b", Z))
+  `DEBUG($sformatf("\tSetting Z=%b", Z))
 endfunction // SetZ
 
 function void RegisterFile::SetV(logic V);
   this.Regs[PSW][`PSW_V] = V;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting V=%b", V))
+  `DEBUG($sformatf("\tSetting V=%b", V))
 endfunction // SetV
 
 function void RegisterFile::SetC(logic C);
   this.Regs[PSW][`PSW_C] = C;
   Write(PSW, Regs[PSW]);
-  `DEBUG($sformatf("Setting C=%b", C))
+  `DEBUG($sformatf("\tSetting C=%b", C))
 endfunction // SetC
 
 function logic RegisterFile::GetN();
