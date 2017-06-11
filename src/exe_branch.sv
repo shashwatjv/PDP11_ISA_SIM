@@ -128,6 +128,6 @@ reg_h.Write(register_t'(t_h.dest), mem_h.GetWord(sp_temp));
 reg_h.Write(SP, sp_temp+16'o2);
 // Write to branch trace file
 t_h.br_taken = T;
-t_h.tgt_addr = t_h.src_operand;
+t_h.tgt_addr = reg_h.Read(PC);
 `BR_TRACE
 endfunction
