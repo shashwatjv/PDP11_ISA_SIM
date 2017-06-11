@@ -45,7 +45,6 @@ function void Execute::exe_bit(ref InstructionTrans t_h);
    reg_h.SetN(result[WSIGN]);
    // no change to C flag
    reg_h.SetV('0);
-   wback(word_op, t_h); // arg: (op_size, xaction_ptr)
 endfunction // exe_bit
 
 function void Execute::exe_bitb(ref InstructionTrans t_h);
@@ -54,7 +53,6 @@ function void Execute::exe_bitb(ref InstructionTrans t_h);
    reg_h.SetN(result[BSIGN]);
    // no change to C flag
    reg_h.SetV('0);
-   wback(byte_op, t_h); // arg: (op_size, xaction_ptr)
 endfunction // exe_bitb
 
 function void Execute::exe_bic(ref InstructionTrans t_h);
