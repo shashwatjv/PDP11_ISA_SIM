@@ -238,7 +238,7 @@ task InstructionDecode::identify_inst_format();
 					`OP1(SEN);
 				end //}
 	16'o??????	: 	begin //{
-					`DEBUG($sformatf("%s,%o Unidentified Instruction turning into NOP ",name,inst.IR))
+					`DEBUG($sformatf("%s %o Unidentified Instruction turning into NOP ",name,inst.IR))
 					`OP1(NOP);
 					end //}
 	endcase //}
@@ -261,6 +261,7 @@ task InstructionDecode::double_op();
 
 	dop_t d_ir = inst.IR;
 `INFO($sformatf("%s DOUBLE OP:  SRC: AM:%s, REG:%s  DEST: AM:%s, REG:%s",name,amod_t'(d_ir.smod),register_t'(d_ir.sreg),amod_t'(d_ir.dmod),register_t'(d_ir.dreg)))
+	if (inst.opcode_ex == SUB) d_ir.sz = word_op;
 	decode_src_am(d_ir.sz,amod_t'(d_ir.smod),d_ir.sreg);
 	decode_dest_am(d_ir.sz,amod_t'(d_ir.dmod),d_ir.dreg);
 endtask 
@@ -297,8 +298,9 @@ task InstructionDecode::subroutine();
 
 	sop_t subr_ir = inst.IR;
 `INFO($sformatf("%s JUMP TO SUBROUTINE : REG_PUSH:%s DEST:AM:%s : REG:%s",name,register_t'(subr_ir.op),amod_t'(subr_ir.dmod),register_t'(subr_ir.dreg)))
-	decode_src_am(word_op,REG,subr_ir.op);
 	decode_dest_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
+	decode_src_am(word_op,REG,subr_ir.op);
+	//decode_dest_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
 	inst.dest = {{13{1'b0}},subr_ir.op};
 	inst.write_reg_en = 1'b1;
 	inst.write_mem_en = 1'b0;
