@@ -85,7 +85,7 @@ endtask
 task InstructionDecode::identify_inst_format();
 
 
-	`DEBUG($sformatf("%s IDENTIFY_INST_FORMAT:RECEIVED INSTRUCTION OF %o",name,inst.IR))
+	`DEBUG($sformatf("%s IDENTIFY_INST_FORMAT:RECEIVED INSTRUCTION OF %o\n",name,inst.IR))
 	      
 
 	priority case (inst.IR) inside //{
@@ -298,7 +298,7 @@ task InstructionDecode::subroutine();
 	sop_t subr_ir = inst.IR;
 `INFO($sformatf("%s JUMP TO SUBROUTINE : REG_PUSH:%s DEST:AM:%s : REG:%s",name,register_t'(subr_ir.op),amod_t'(subr_ir.dmod),register_t'(subr_ir.dreg)))
 	decode_src_am(word_op,REG,subr_ir.op);
-	decode_src_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
+	decode_dest_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
 	inst.dest = {{13{1'b0}},subr_ir.op};
 	inst.write_reg_en = 1'b1;
 	inst.write_mem_en = 1'b0;
@@ -324,13 +324,13 @@ endtask
 task InstructionDecode::decode_src_am(op_size b_w,amod_t am_s,radr_t rs_num);
 word_t d;
 bit d1,d2;
-`INFO($sformatf("%s ##### DECODE_SRC_AM #####\n",name))
+`INFO($sformatf("\n#################################### %s DECODE_SRC_AM ################################################\n",name))
 fetch_operand(b_w,am_s,rs_num,SRC,inst.src_operand,d,d1,d2);
 endtask
 
 //dest_operand,dest_operand,write_reg_en,write_mem_en are set in this task 
 task InstructionDecode::decode_dest_am(op_size b_w,amod_t am_d,radr_t rd_num);
-`INFO($sformatf("%s ##### DECODE_DEST_AM #####\n",name))
+`INFO($sformatf("\n#################################### %s DECODE_DEST_AM ################################################\n",name))
 fetch_operand(b_w,am_d,rd_num,DST,inst.dest_operand,inst.dest,inst.write_reg_en,inst.write_mem_en);
 endtask
 
@@ -360,7 +360,7 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 			eff_addr = read_reg(word_op,register);
 			`DEBUG($sformatf("%s Reg Def AM:Effective Address=16'o%o",name,eff_addr))
 			//if (((inst.opcode_ex == MOV) || (inst.opcode_ex == MOVB)) && ()) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); 
-	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); else return_value = eff_addr; 
+	if (~((inst.opcode_ex inside {MOV,MOVB,JSR,JMP}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); else return_value = eff_addr; 
 			if (src_dest == DST) begin //{
 			dst = eff_addr;
 			mem_vld = 1'b1;
@@ -373,7 +373,7 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 				eff_addr = inc_dec_reg(b_w,mode,register);
 			`DEBUG($sformatf("%s Auto Incr/Decr AM:Effective Address=16'o%o",name,eff_addr))
 				//return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); 
-	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); else return_value = eff_addr; 
+	if (~((inst.opcode_ex inside {MOV,MOVB,JSR,JMP}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr) : read_mem(word_op,eff_addr); else return_value = eff_addr; 
 				if (src_dest == DST) begin //{
 				dst = eff_addr;
 				mem_vld = 1'b1;
@@ -389,7 +389,7 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 					eff_addr_1 = read_mem(word_op,eff_addr);
 			`DEBUG($sformatf("%s,Register Auto Incr/Decr Deffered AM:Effective Address_1=16'o%o",name,eff_addr_1))
 					//return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
-	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); else return_value = eff_addr_1; 
+	if (~((inst.opcode_ex inside {MOV,MOVB,JSR,JMP}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); else return_value = eff_addr_1; 
 					if (src_dest == DST) begin //{
 					dst = eff_addr_1;
 					mem_vld = 1'b1;
@@ -406,7 +406,7 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 					eff_addr_1 = eff_addr + disp;
 			`DEBUG($sformatf("%s Reg Indexed AM:Effective Address_1=16'o%o",name,eff_addr_1))
 					//return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); 
-	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); else return_value = eff_addr_1; 
+	if (~((inst.opcode_ex inside {MOV,MOVB,JSR,JMP}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_1) : read_mem(word_op,eff_addr_1); else return_value = eff_addr_1; 
 					if (src_dest == DST) begin //{
 					dst = eff_addr_1;
 					mem_vld = 1'b1;
@@ -424,7 +424,7 @@ task InstructionDecode::fetch_operand(input op_size b_w,amod_t mode,radr_t regis
 			`DEBUG($sformatf("%s Auto Indexed Deffered AM:Effective Address_1=16'o%o",name,eff_addr_1))
 					eff_addr_2 = read_mem(word_op,eff_addr_1);
 			`DEBUG($sformatf("%s Auto Indexed Deffered AM:Effective Address_2=16'o%o",name,eff_addr_2))
-	if (~((inst.opcode_ex inside {MOV,MOVB}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); else return_value = eff_addr_2; 
+	if (~((inst.opcode_ex inside {MOV,MOVB,JSR,JMP}) && (src_dest == DST))) return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); else return_value = eff_addr_2; 
 					//return_value = b_w ? read_mem(byte_op,eff_addr_2) : read_mem(word_op,eff_addr_2); 
 					if (src_dest == DST) begin //{
 					dst = eff_addr_2;
