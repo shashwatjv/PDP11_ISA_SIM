@@ -17,7 +17,9 @@ function void Execute::exe_movb(ref InstructionTrans t_h);
 endfunction // exe_movb
 
 function void Execute::exe_cmp(ref InstructionTrans t_h);
-   {cy,result} = signed'(t_h.src_operand) + ~(signed'(t_h.dest_operand)) + 2'sd1;
+   word_t d2s;
+   d2s = -t_h.dest_operand;
+   {cy,result} = t_h.src_operand + d2s;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(~cy);
@@ -26,7 +28,10 @@ function void Execute::exe_cmp(ref InstructionTrans t_h);
 endfunction // exe_cmp
 
 function void Execute::exe_cmpb(ref InstructionTrans t_h);
-   {cy,result} = signed'(bsign_ext(t_h.src_operand)) + ~(signed'(bsign_ext(t_h.dest_operand))) + 2'sd1;
+   word_t d,d2s;
+   d=bsign_ext(t_h.dest_operand);
+   d2s = -d;
+   {cy,result} = bsign_ext(t_h.src_operand) + d2s;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(~cy);
@@ -99,7 +104,9 @@ function void Execute::exe_add(ref InstructionTrans t_h);
 endfunction // exe_add
 
 function void Execute::exe_sub(ref InstructionTrans t_h);
-   {cy,result} = signed'(t_h.dest_operand) + ~(signed'(t_h.src_operand)) + 2'sd1;
+   word_t s2;
+   s2 = -t_h.src_operand;
+   {cy,result} = t_h.dest_operand + s2;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(~cy);
