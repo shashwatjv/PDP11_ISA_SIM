@@ -78,8 +78,12 @@ Examine_PSW();
 endfunction
 
 function void RegisterFile::Regress (); // Print the register values at end of simulation
-foreach(Regs[i])
+foreach(Regs[i]) begin
+if(register_t'(i)==PSW)
+`DEBUG_REG_TRACE($sformatf("%0d N-%b | Z-%b | V-%b | C-%b", i,Regs[PSW][`PSW_N],Regs[PSW][`PSW_Z],Regs[PSW][`PSW_V],Regs[PSW][`PSW_C]))
+else
 `DEBUG_REG_TRACE($sformatf("%0d %6o", i, Regs[i]))
+end
 endfunction
 
 function void RegisterFile::SetN(logic N);
