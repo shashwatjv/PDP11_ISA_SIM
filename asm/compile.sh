@@ -11,3 +11,4 @@ echo "Compiling" $1
 ../bin/obj2ascii $1.obj $1.ascii
 IPC=`grep -A1 "START.*:" $1.lst | sed -n '$p' | awk '{print $2}'`
 echo "IPC=$IPC"
+echo "*$IPC" >> $1.ascii
