@@ -7,6 +7,10 @@ Authors: Harathi, Khanna, Vinchurkar
 
 `include "common_pkg.sv"
 //import common_pkg::*;
+//
+
+
+
 class Memory;
 byte_t mem [mem_addr_t];
 bit  breakpoint [mem_addr_t];
@@ -17,7 +21,7 @@ extern function void SetByte (mem_addr_t Address, byte_t Data, bit log=1);
 extern function word_t GetWord (mem_addr_t Address, bit ifetch=0, bit log=1);
 extern function byte_t GetByte (mem_addr_t Address, bit log=1);
 extern function void ExamineWord (mem_addr_t Address); // prints the contents of memory address
-extern function void Print (bit Mode); // 
+extern function void Print (mem_print_t mode); // 
 extern function bit isBreakpoint (mem_addr_t Address); // returns 1 if breakpoint set for address
 endclass
 
@@ -107,8 +111,20 @@ function void Memory::ExamineWord (mem_addr_t Address); // prints the contents o
 endfunction
 
 
-function void Memory::Print (bit Mode); // Print Contents of valid memory locations
-`INFO("\t\tContents of Memory")
+function void Memory::Print (mem_print_t mode); // Print Contents of valid memory locations
+	string msg;
+	mem_addr_t idx;
+	$display("printing mem to %s", mode);
+	if (mem.first(idx)) begin
+		do begin
+			msg = $sformatf ("\tMem[%6o] : %3o", idx, mem[idx]); 
+			case (mode)
+			mem_debug: `DEBUG(msg)
+			mem_file:  `FILE_TRACE(mem_cont_f, msg)
+			endcase
+		end
+		while (mem.next(idx));
+	end
 endfunction
 
 

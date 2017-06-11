@@ -389,6 +389,7 @@ endfunction // exe_sen
 
 function void Execute::exe_halt(ref InstructionTrans t_h);
    reg_h.Print();
+   mem_h.Print(mem_file);
    $display("\n Instructions Executed = %0d \n",ICOUNT);
    ExitSim();
    $stop();

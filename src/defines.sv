@@ -52,8 +52,8 @@ Authors: Harathi, Khanna, Vinchurkar
 `define PSW_V 1
 `define PSW_C 0
 
-`define TXN_TRACE(msg) \
-	$fdisplay (txn_f, "%s", msg);
+`define FILE_TRACE(file, msg) \
+	$fdisplay (file, "%s", msg);
 
 
 `define BR_TRACE $fdisplay(br_f, "PC: %6o\tTYPE: %s\tTGT: %6o\t%s", t_h.instr_pc, t_h.opcode_ex, t_h.tgt_addr, t_h.br_taken);
