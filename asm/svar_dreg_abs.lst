@@ -1,0 +1,28 @@
+       1                                ;
+       2                                ;    **************************************
+       3                                ;    * Simulate various Move instruction 
+       4                                ;    * addressing modes
+       5                                ;    **************************************
+       6                                ;
+       7                                    .PSECT DATA,ABS
+       8 001000                             .=1000
+       9 001000 000055                  A1: .WORD 55
+      10 001002 000040                  A2: .WORD 40
+      11 001004 000022                  A3: .WORD 22
+      12                                    .END DATA
+      13                                ; source op varies but destn op is always a reg mode
+      14                                
+      15                                	.ENABL AMA
+      16                                	.PSECT A,ABS
+      17 002000                         	.=2000
+      18                                START:
+      19 002000 012700  001000          	MOV #A1, r0    ; immediate: r0 = A1 ( equals address 0)
+      20 002004 011001                  	MOV @r0, r1    ; register defer : r1=55
+      21 002006 016002  000002          	MOV 2(r0), r2  ; indexed : r2=40
+      22 002012 010103                  	MOV r1, r3     ; register : r3=r1=55
+      23 002014 012704  001004          	MOV #A3, r4    ; immediate : r4=A3(eq. address 4)
+      24 002020 012405                  	MOV (r4)+, r5  ; auto-inc : r5=22, r4=6
+      25 002022 014406                  	MOV -(r4), SP  ; auto-dec : r4=4, r6=22
+      26 002024 000000                  	HALT           ; halt
+      27                                	.END START 	
+      27                                

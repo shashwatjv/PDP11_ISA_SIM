@@ -1,0 +1,48 @@
+       1                                ;
+       2                                ;    **************************************
+       3                                ;    * Simulate various Move instruction 
+       4                                ;    * DEFERRED addressing modes
+       5                                ;    **************************************
+       6                                ;
+       7                                ;  Create a array of pointers for deferred indexing
+       8                                    .PSECT PTR,ABS
+       9 001000                             .=1000
+      10 001000 000500                  A1: .WORD 500
+      11 001002 000502                  A2: .WORD 502
+      12 001004 000504                  A3: .WORD 504
+      13 001006 000506                  A4: .WORD 506
+      14 001010 000510                  A5: .WORD 510
+      15 001012 000512                  A6: .WORD 512
+      16 001014 000514                  A7: .WORD 514
+      17                                    .END PTR
+      18                                
+      19                                ;  Array to be indexed
+      20                                	.PSECT ARRAY2, ABS
+      21 000500                         	.=500
+      22 000500 065420                  B1: .WORD 065420
+      23 000502 065421                  B2: .WORD 065421
+      24 000504 065422                  B3: .WORD 065422
+      25 000506 125423                  B4: .WORD 125423
+      26 000510 125424                  B5: .WORD 125424
+      27 000512 125425                  B6: .WORD 125425
+      28 000514 125426                  B7: .WORD 125426
+      29                                	.END ARRAY2
+      30                                
+      31                                ; source op varies but destn op is always a reg mode
+      32                                
+      33                                	.ENABL AMA
+      34                                	.PSECT A,ABS
+      35 002000                         	.=2000
+      36                                START:
+      37 002000 012706  001014          	MOV #A7, SP     ; initialize the ptr array ref, SP=1014
+      38 002004 011600                  	MOV @SP, r0     ; r0 = 514
+      39 002006 015601                  	MOV @-(SP), r1  ; r1 = 125425, SP=1012
+      40 002010 005306                  	DEC SP		; decrement SP, programmers resp. to do 2 decs as SP point to words
+      41 002012 005306                  	DEC SP		; decrement SP , SP=1010
+      42 002014 013602                  	MOV @(SP)+, r2  ; r2 = 125424, SP=1012
+      43 002016 017603  177766          	MOV @-12(SP), r3 ; r3=065420, SP=1000
+      44 002022 000000                  	HALT           ; halt
+      45                                	.END START 	
+      46                                
+      47                                
+      47                                
