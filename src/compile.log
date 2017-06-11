@@ -1,31 +1,13 @@
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 19 2015
-Start time: 01:37:32 on Jun 05,2017
-vlog -mfcu -l compile.log Memory.sv RegisterFile.sv InstuctionTrans.sv Instruction_fetch.sv Instruction_decode.sv Execute.sv PDP11_20.sv LoadMem.sv top.sv 
+Start time: 20:18:41 on Jun 10,2017
+vlog -mfcu -f file_sv.f -l compile.log 
 -- Compiling package common_pkg
-** Error: RegisterFile.sv(40): (vlog-2730) Undefined variable: 'Destination'.
-** Warning: RegisterFile.sv(120): (vlog-2283) Extra semicolon in $unit (global) scope.
-** Error: (vlog-13069) RegisterFile.sv(120): near ";": syntax error, unexpected ';'.
-** Error: InstuctionTrans.sv(42): (vlog-2730) Undefined variable: 'inst_id'.
-** Error: (vlog-13069) InstuctionTrans.sv(46): near "function": syntax error, unexpected function, expecting module or interface or program.
-** Error: Instruction_fetch.sv(4): Invalid type 'InstructionTrans'. Please check the type of the variable 'itxn_h'.
-** Error: (vlog-13069) Instruction_fetch.sv(15): near "run": syntax error, unexpected IDENTIFIER, expecting ';'.
-** Error: (vlog-13069) ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Instruction_decode.sv(13): near "(": syntax error, unexpected '('.
-** Error: ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Instruction_decode.sv(13): (vlog-13205) Syntax error found in the scope following 'single_op'. Is there a missing '::'?
-** Warning: ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Execute.sv(3): (vlog-2619) Use of lifetime qualifier 'automatic' for task prototype 'new' is not LRM compliant.
-** Error: ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Execute.sv(7): Invalid type 'InstructionTrans'. Please check the type of the variable 'txn'.
-** Error: ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Execute.sv(12): Function 'new' is allowed only in context of class constructor.
-** Error: (vlog-13069) ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Execute.sv(20): near "t_h": syntax error, unexpected IDENTIFIER, expecting ')'.
-** Error: (vlog-13069) ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at Execute.sv(20): near ")": syntax error, unexpected ')', expecting class.
-** Error: ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at LoadMem.sv(10): (vlog-2164) Class or package 'PDP11_20' not found.
-** Error: (vlog-13069) ** while parsing macro expansion: 'S' starting at Instruction_decode.sv(13)
-** at LoadMem.sv(10): near "::": syntax error, unexpected ::, expecting ';' or '('.
-End time: 01:37:32 on Jun 05,2017, Elapsed time: 0:00:00
-Errors: 14, Warnings: 2
+** Warning: InstructionTransaction.sv(57): (vlog-2643) Unterminated string literal continues onto next line.
+-- Compiling package Memory_sv_unit
+-- Importing package common_pkg
+-- Compiling module top
+
+Top level modules:
+	top
+End time: 20:18:41 on Jun 10,2017, Elapsed time: 0:00:00
+Errors: 0, Warnings: 1

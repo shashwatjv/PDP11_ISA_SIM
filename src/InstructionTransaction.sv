@@ -63,7 +63,11 @@ msg = $sformatf("\n\n\t ******** INST XACTION DETAILS *********\n
                  **************************************\n"
                  ,inst_id,instr_pc, IR, opcode_ex,src_operand,dest_operand,offset,dest,result,write_mem_en,write_reg_en,tgt_addr,br_taken,old_psw,new_psw);
 `DEBUG(msg)
+<<<<<<< HEAD
 `FILE_TRACE(txn_f, msg)
+=======
+`FILE_TRACE(txn_f,msg)
+>>>>>>> 1ccc2afbc0a9c8d3a09a0c348237402cd0c0436e
 return(msg);
 
 endfunction 
