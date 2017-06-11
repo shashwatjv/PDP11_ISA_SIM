@@ -1,0 +1,25 @@
+;
+;    **************************************
+;    * Simulate various Move instruction 
+;    * addressing modes
+;    **************************************
+;
+A1: .WORD 55
+A2: .WORD 40
+A3: .WORD 22
+
+; source op varies but destn op is always a reg mode
+START:
+	CMP #2, #2
+	CMP #6, #3
+	CMP #4, #-2
+	CMP #4, #-5
+	CMP #5, #7
+	CMP #-3, #2
+	CMP #-2, #-5
+	CMP #-4, #6
+	CMP #077777, #-1
+	CMP #100000, #-1
+	CMP #100000, #1
+	HALT
+	.END START 	
