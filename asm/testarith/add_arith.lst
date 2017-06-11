@@ -1,0 +1,22 @@
+       1 000000 000005                  FIVE: 		.WORD 000005
+       2 000002 000003                  THREE: 		.WORD 000003
+       3 000004 077777                  MAXPOS:		.WORD 077777 
+       4 000006 000001                  ONE: 		.WORD 1.
+       5 000010 000002                  TWO:		.WORD 2.
+       6 000012 100000                  MINNEG: 	.WORD 100000 ; Most negative number
+       7 000014 177777                  MINUS1: 	.WORD -1. 
+       8 000016 177776                  MINUS2:		.WORD -2.
+       9 000020 000000                  ZERO: 		.WORD 0.
+      10 000022 123456                  RANDNEG:	.WORD 123456
+      11 000024 054322                  RANDPOS:	.WORD 054322
+      12                                
+      13                                START:
+      14 000026 066767  177746  177746  	ADD FIVE, THREE		;5+3=10;NZVC=0
+      15 000034 066767  177764  177760  	ADD RANDPOS, RANDNEG	;0; Z=1
+      16 000042 066767  177744  177744  	ADD MINNEG, MINUS1	;0 Z=1, V=1, C=1
+      17 000050 066767  177730  177732  	ADD MAXPOS, TWO		;1 Z=0, V=1, C=1
+      18 000056 066767  177722  177734  	ADD MAXPOS, ZERO	;MAXPOS Z=0,
+      19 000064 066767  177726  177724  	ADD MINUS2, MINUS2	;-2 Z=0, N=1, C=1, V=0
+      20 000072 066767  177714  177704  	ADD MINNEG, MAXPOS	;-1 N=1, V=0, C=0
+      21 000100 000000                  	HALT
+      21                                
