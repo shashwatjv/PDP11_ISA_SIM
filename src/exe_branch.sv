@@ -125,7 +125,7 @@ reg_h.Write(PC, t_h.src_operand);
 // Pop the contents of top of stack into reg
 sp_temp = reg_h.Read(SP);
 reg_h.Write(register_t'(t_h.dest), mem_h.GetWord(sp_temp));
-reg_h.Write(SP, sp_temp-16'o2);
+reg_h.Write(SP, sp_temp+16'o2);
 // Write to branch trace file
 t_h.br_taken = T;
 t_h.tgt_addr = t_h.src_operand;
