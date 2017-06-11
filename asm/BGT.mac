@@ -1,0 +1,36 @@
+		.PSECT A, REL
+
+A:	.WORD 4
+B:	.WORD 5
+C:	.WORD 1
+D:	.WORD 2
+
+; BGT Z | (N ^ V) = 0
+START :
+	SEC
+	SEV
+	SEZ
+	SEN
+	CLC
+	CLZ
+	BGT SKIP1 ; taken (0,0)
+FIRE:	HALT 
+SKIP1:	CLC
+	CLN
+	BGT FIRE ;  not taken(0,1)
+	SEN
+	SEC
+	SEZ
+	SEV
+	CLC
+	BGT FIRE  ; not taken(1,0)
+	SEZ
+	SEV
+	BGT FIRE; not take (1,1)
+	CLC
+	CLV
+	CLN
+	CLZ
+	HALT
+	.END	START
+

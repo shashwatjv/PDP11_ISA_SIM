@@ -1,0 +1,36 @@
+		.PSECT A, REL
+
+A:	.WORD 4
+B:	.WORD 5
+C:	.WORD 1
+D:	.WORD 2
+
+; N ^ V = 1
+START :
+	SEC
+	SEV
+	SEZ
+	SEN
+	BLT FIRE ; not taken (1,1) 
+	CLC
+	CLV
+	CLZ
+	BLT SKIP1 ;  taken(1,0)
+	HALT
+SKIP1:	CLN
+	BLT FIRE  ; not taken(0,0)
+	SEC
+	CLN
+	SEZ
+	SEV
+	BLT SUM1; take (0,1)
+	HALT
+SUM1:	ADD C,D
+	CLC
+	CLV
+	CLN
+	CLZ
+FIRE:	HALT
+	.END	START
+
+
