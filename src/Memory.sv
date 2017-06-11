@@ -25,6 +25,7 @@ endclass
 
 function void Memory::SetByte (mem_addr_t Address, byte_t Data, bit log=1);
 mem_access_t AccessType;
+`DEBUG($sformatf("\t \tSetByte: Address=%o, Data=%o", Address, Data))
 AccessType = DATA_WRITE;
 mem[Address] = Data; 
 valid[Address] = 1;
@@ -39,6 +40,7 @@ function void Memory::SetWord (mem_addr_t Address, word_t Data, bit MemLoad=FALS
 mem_access_t AccessType;
 
 AccessType = DATA_WRITE;
+`DEBUG($sformatf("\t\tSetWord: Address=%o, Data=%o", Address, Data))
 
 assert (Address[0]==1'b0)
 else `INFO("SetWord:: Unaligned word access")
@@ -63,7 +65,6 @@ function word_t Memory::GetWord (mem_addr_t Address, bit ifetch=0, bit log=1);
 mem_access_t AccessType;
 word_t Data;
 
-`DEBUG($sformatf("Call to get-word: Address=%o", Address))
 AccessType = ifetch ? INST_FETCH : DATA_READ;
 
 assert (Address[0]==1'b0)
@@ -80,7 +81,7 @@ if (log===1) begin
 `MEM_TRACE($sformatf("%0d \t %6o", AccessType, Address))
 `DEBUG_MEM_TRACE($sformatf("%s \t %6o \t %6o", AccessType, Address, Data))
 end
-`DEBUG($sformatf("Returning Data: %6o", Data))
+`DEBUG($sformatf("\t\tGetWord: Returning Data: %6o from Address: %6o", Data, Address))
 return Data;
 endfunction
 
@@ -96,6 +97,7 @@ if (log===1) begin
 `MEM_TRACE($sformatf("%0d \t %6o", AccessType, Address))
 `DEBUG_MEM_TRACE($sformatf("%s \t %6o \t %6o", AccessType, Address, Data))
 end
+`DEBUG($sformatf("\t\tGetByte: Returning Data: %6o from Address: %o", Data, Address))
 return Data;
 endfunction
 
@@ -106,7 +108,7 @@ endfunction
 
 
 function void Memory::Print (bit Mode); // Print Contents of valid memory locations
-`INFO("Contents of Memory")
+`INFO("\t\tContents of Memory")
 endfunction
 
 
