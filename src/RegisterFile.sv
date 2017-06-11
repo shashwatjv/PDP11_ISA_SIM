@@ -20,6 +20,7 @@ endfunction
 extern function word_t Read (register_t Source);
 extern function void Write(register_t Destination, word_t Data);
 extern function void Examine (register_t Destination); 
+extern function void Examine_PSW (); 
 extern function void Regress ();
 extern function void Print ();
 extern function void SetN(logic);
@@ -60,6 +61,10 @@ function void RegisterFile::Examine (register_t Destination); // Print a particu
 `DEBUG($sformatf("Regs[%s]: %6o", Destination, Read(Destination)))
 endfunction
 
+function void RegisterFile::Examine_PSW();
+`DEBUG($sformatf("Regs[%s]: N-%b | Z-%b | V-%b | C-%b", PSW,Regs[PSW][`PSW_N],Regs[PSW][`PSW_Z],Regs[PSW][`PSW_V],Regs[PSW][`PSW_C]))
+endfunction
+
 function void RegisterFile::Print (); // Print the contents of register file in octal
 Examine (R0);
 Examine (R1);
@@ -69,7 +74,7 @@ Examine (R4);
 Examine (R5);
 Examine (SP);
 Examine (PC);
-Examine (PSW);
+Examine_PSW();
 endfunction
 
 function void RegisterFile::Regress (); // Print the register values at end of simulation
