@@ -264,6 +264,7 @@ task InstructionDecode::double_op();
 	if (inst.opcode_ex == SUB) d_ir.sz = word_op;
 	decode_src_am(d_ir.sz,amod_t'(d_ir.smod),d_ir.sreg);
 	decode_dest_am(d_ir.sz,amod_t'(d_ir.dmod),d_ir.dreg);
+	if (inst.opcode_ex inside {CMPB,CMP,BITB,BIT}) {inst.write_reg_en,inst.write_mem_en} = 2'b00; 
 endtask 
 
 //dest_operand - has the destination operand 
@@ -278,6 +279,7 @@ task InstructionDecode::single_op();
 	end //}
 	decode_dest_am(s_ir.sz,amod_t'(s_ir.dmod),s_ir.dreg);
 	assert (!((inst.opcode_ex == JMP) && (inst.dest_operand[0] == 1'b1))) else $warning ("Boundary error condition access to odd address for a JUMP");
+	if (inst.opcode_ex inside {TSTB,TST}) {inst.write_reg_en,inst.write_mem_en} = 2'b00; 
 endtask
 
 ///offset - has the shifted sign extended value 
