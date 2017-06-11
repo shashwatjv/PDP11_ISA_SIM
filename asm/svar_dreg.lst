@@ -1,0 +1,22 @@
+       1                                ;
+       2                                ;    **************************************
+       3                                ;    * Simulate various Move instruction 
+       4                                ;    * addressing modes
+       5                                ;    **************************************
+       6                                ;
+       7 000000 000055                  A1: .WORD 55
+       8 000002 000040                  A2: .WORD 40
+       9 000004 000022                  A3: .WORD 22
+      10                                
+      11                                ; source op varies but destn op is always a reg mode
+      12                                START:
+      13 000006 012700  000000          	MOV #A1, r0    ; immediate: r0 = A1 ( equals address 0)
+      14 000012 011001                  	MOV @r0, r1    ; register defer : r1=55
+      15 000014 016002  000002          	MOV 2(r0), r2  ; indexed : r2=40
+      16 000020 010103                  	MOV r1, r3     ; register : r3=r1=55
+      17 000022 012704  000004          	MOV #A3, r4    ; immediate : r4=A3(eq. address 4)
+      18 000026 012405                  	MOV (r4)+, r5  ; auto-inc : r5=22, r4=6
+      19 000030 014406                  	MOV -(r4), SP  ; auto-dec : r4=4, r6=22
+      20 000032 000000                  	HALT           ; halt
+      21                                	.END START 	
+      21                                
