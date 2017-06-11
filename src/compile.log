@@ -1,5 +1,5 @@
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 19 2015
-Start time: 20:18:41 on Jun 10,2017
+Start time: 23:33:14 on Jun 10,2017
 vlog -mfcu -f file_sv.f -l compile.log 
 -- Compiling package common_pkg
 ** Warning: InstructionTransaction.sv(57): (vlog-2643) Unterminated string literal continues onto next line.
@@ -9,5 +9,5 @@ vlog -mfcu -f file_sv.f -l compile.log
 
 Top level modules:
 	top
-End time: 20:18:41 on Jun 10,2017, Elapsed time: 0:00:00
+End time: 23:33:14 on Jun 10,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 1

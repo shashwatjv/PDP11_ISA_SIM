@@ -1,5 +1,5 @@
-# vsim -c -novopt -do "run -all; quit" "+IFILE=/u/ukhanna/smb_files/PDP11_ISA_SIM/asm/testarith/add_arith.ascii" "+IPC=26" top 
-# Start time: 20:18:42 on Jun 10,2017
+# vsim -c -novopt -do "run -all; quit" "+IFILE=/u/ukhanna/smb_files/PDP11_ISA_SIM/asm/testarith/sub_arith.ascii" "+IPC=0" top 
+# Start time: 23:33:15 on Jun 10,2017
 # ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
 # //  Questa Sim-64
 # //  Version 10.4c linux_x86_64 Jul 19 2015
@@ -26,12 +26,12 @@
 # run -all
 # printing mem to mem_file
 # 
-#  Instructions Executed = 8 
+#  Instructions Executed = 11 
 # 
 # ** Note: $stop    : nobranch_instr.sv(395)
 #    Time: 0 ns  Iteration: 0  Instance: /top
 # Break in Function Memory_sv_unit/Execute::exe_halt at nobranch_instr.sv line 395
 # Stopped at nobranch_instr.sv line 395
 #  quit
-# End time: 20:18:42 on Jun 10,2017, Elapsed time: 0:00:00
+# End time: 23:33:15 on Jun 10,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 1
