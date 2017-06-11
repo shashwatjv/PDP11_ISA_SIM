@@ -17,7 +17,7 @@ function void Execute::exe_movb(ref InstructionTrans t_h);
 endfunction // exe_movb
 
 function void Execute::exe_cmp(ref InstructionTrans t_h);
-   {cy,result} = t_h.src_operand - t_h.dest_operand;
+   {cy,result} = signed'(t_h.src_operand) + ~(signed'(t_h.dest_operand)) + 1'sd1;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(~cy);
@@ -26,7 +26,7 @@ function void Execute::exe_cmp(ref InstructionTrans t_h);
 endfunction // exe_cmp
 
 function void Execute::exe_cmpb(ref InstructionTrans t_h);
-   {cy,result} = bsign_ext(t_h.src_operand) - bsign_ext(t_h.dest_operand);
+   {cy,result} = signed'(bsign_ext(t_h.src_operand)) + ~(signed'(bsign_ext(t_h.dest_operand))) + 1'sd1;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(~cy);
@@ -99,7 +99,7 @@ function void Execute::exe_add(ref InstructionTrans t_h);
 endfunction // exe_add
 
 function void Execute::exe_sub(ref InstructionTrans t_h);
-   {cy,result} = t_h.dest_operand - t_h.src_operand;
+   {cy,result} = signed'(t_h.dest_operand) + ~(signed'(t_h.src_operand)) + 1'sd1;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
    reg_h.SetC(~cy);
