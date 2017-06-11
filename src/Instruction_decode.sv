@@ -71,8 +71,9 @@ endclass
 //copies the passed handle to local handle
 task InstructionDecode::run(InstructionTrans inst);
 this.inst = inst;
-inst_num = $sformatf("Instruction Number %0d::",inst.inst_id);
-name = {"InstructionDecode::",inst_num};
+inst_num = $sformatf("ID %0d::",inst.inst_id);
+//name = {"Decode::",inst_num};
+name = {inst_num};
 	`DEBUG($sformatf("\n\n############################### START INSTRUCTION DECODE PHASE: INSTRUCTION NUMBER : %0d ###############################\n",inst.inst_id))
 	//`INFO($sformatf("\n\n############################### START INSTRUCTION DECODE PHASE: INSTRUCTION NUMBER : %0d ###############################\n",inst.inst_id))
 identify_inst_format();
@@ -259,7 +260,7 @@ endtask
 task InstructionDecode::double_op();
 
 	dop_t d_ir = inst.IR;
-`INFO($sformatf("%s DOUBLE OP:SRC AM:%s REG:%s DEST:AM:%s REG:%s",name,amod_t'(d_ir.smod),register_t'(d_ir.sreg),amod_t'(d_ir.dmod),register_t'(d_ir.dreg)))
+`INFO($sformatf("%s DOUBLE OP:  SRC: AM:%s, REG:%s  DEST: AM:%s, REG:%s",name,amod_t'(d_ir.smod),register_t'(d_ir.sreg),amod_t'(d_ir.dmod),register_t'(d_ir.dreg)))
 	decode_src_am(d_ir.sz,amod_t'(d_ir.smod),d_ir.sreg);
 	decode_dest_am(d_ir.sz,amod_t'(d_ir.dmod),d_ir.dreg);
 endtask 
@@ -268,7 +269,7 @@ endtask
 //dest - has the register number or the destination address depending on write_reg_en and write_mem_en respectively 
 task InstructionDecode::single_op();
 	sop_t s_ir = inst.IR;
-`INFO($sformatf("%s SINGLE OP:SRC:AM:%s REG:%s",name,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
+`INFO($sformatf("%s SINGLE OP:  SRC: AM:%s, REG:%s",name,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
 	//assert (!(inst.opcode_ex == JMP) && (s_ir.dmod == REG)) $fatal ("REGISTER MODE ILLEGAL IN JUMP");
 	assert (!((inst.opcode_ex == JMP) && (s_ir.dmod == REG))) else $warning ("REGISTER MODE ILLEGAL IN JUMP");
 	if ((inst.opcode_ex == JMP) && (s_ir.dmod == REG_DEF)) begin //{
@@ -283,7 +284,7 @@ endtask
 task InstructionDecode::branch();
 	brop_t b_ir = inst.IR;
 	inst.offset = {{7{b_ir.ofst[7]}},b_ir.ofst,1'b0};
-`INFO($sformatf("%s BRANCH OP:OFFSET:%o",name, inst.offset))
+`INFO($sformatf("%s BRANCH OP: OFFSET:%o",name, inst.offset))
 endtask
 
 ///////////////////for JSR /////////////////////////
@@ -295,7 +296,7 @@ endtask
 task InstructionDecode::subroutine();
 
 	sop_t subr_ir = inst.IR;
-`INFO($sformatf("%s JUMP TO SUBROUTINE:REG_PUSH:%s DEST:AM:%s:REG:%s",name,register_t'(subr_ir.op),amod_t'(subr_ir.dmod),register_t'(subr_ir.dreg)))
+`INFO($sformatf("%s JUMP TO SUBROUTINE : REG_PUSH:%s DEST:AM:%s : REG:%s",name,register_t'(subr_ir.op),amod_t'(subr_ir.dmod),register_t'(subr_ir.dreg)))
 	decode_src_am(word_op,REG,subr_ir.op);
 	decode_src_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
 	inst.dest = {{13{1'b0}},subr_ir.op};
@@ -310,7 +311,7 @@ endtask
 ///////////////////////////////////////////////////
 task InstructionDecode::r_subroutine();
 	sys_t rsubr_ir = inst.IR;
-`INFO($sformatf("%s RETURN FROM SUBROUTINE:REG_POP:%s",name,register_t'(rsubr_ir.op)))
+`INFO($sformatf("%s RETURN FROM SUBROUTINE: REG_POP:%s",name,register_t'(rsubr_ir.op)))
 	decode_src_am(word_op,REG,rsubr_ir.op);
 	inst.dest = {{13{1'b0}},rsubr_ir.op};
 	inst.write_reg_en = 1'b1;

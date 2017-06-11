@@ -11,7 +11,7 @@ lib:
 compile:
 	vlog -mfcu -f file_sv.f -l compile.log
 sim:
-	vsim -c -novopt -do "run -all" +IFILE=$(IFILE)  +IPC=$(IPC) top
+	vsim -c -novopt -do "run -all; quit" +IFILE=$(IFILE)  +IPC=$(IPC) top
 	
 clean:
 	rm -rf work output.log traces transaction.log
