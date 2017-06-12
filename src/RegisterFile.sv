@@ -54,7 +54,7 @@ mem_addr_t address;
 address = RegMemMap (Destination);
 mem_h.SetWord (address, Data, .log(0));
 Regs[Destination]=Data;
-`DEBUG($sformatf("\tWriting %6o to %s", Data, Destination))
+//`DEBUG($sformatf("\tWriting %6o to %s", Data, Destination))
 endfunction
 
 function void RegisterFile::Examine (register_t Destination); // Print a particular register for debug

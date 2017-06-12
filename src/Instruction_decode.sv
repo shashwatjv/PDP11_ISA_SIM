@@ -166,28 +166,28 @@ task InstructionDecode::identify_inst_format();
 	{8'h07,8'h??}	:	begin //{
 					`OPB(BLE);
 					end //}
-	{8'hA0,8'h??}	:	begin //{
+	{8'h80,8'h??}	:	begin //{
 					`OPB(BPL);
 					end //}
-	{8'hA1,8'h??}	:	begin //{
+	{8'h81,8'h??}	:	begin //{
 					`OPB(BMI);
 					end //}
-	{8'hA2,8'h??}	:	begin //{
+	{8'h82,8'h??}	:	begin //{
 					`OPB(BHI);
 					end //}
-	{8'hA3,8'h??}	:	begin //{
+	{8'h83,8'h??}	:	begin //{
 					`OPB(BLOS);
 					end //}
-	{8'hA4,8'h??}	:	begin //{
+	{8'h84,8'h??}	:	begin //{
 					`OPB(BVC);
 					end //}
-	{8'hA5,8'h??}	:	begin //{
+	{8'h85,8'h??}	:	begin //{
 					`OPB(BVS);
 					end //}
-	{8'hA6,8'h??}	:	begin //{
+	{8'h86,8'h??}	:	begin //{
 					`OPB(BCC);
 					end //}
-	{8'hA7,8'h??}	:	begin //{
+	{8'h87,8'h??}	:	begin //{
 					`OPB(BCS);
 					end //}
 	16'o?1????	:	begin //{
