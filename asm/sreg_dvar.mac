@@ -1,0 +1,23 @@
+;
+;    **************************************
+;    * Simulate various Move instruction 
+;    * addressing modes
+;    **************************************
+;
+A1: .WORD 55
+A2: .WORD 40
+A3: .WORD 22
+
+; destn. op varies but source op is always a reg mode
+START:
+	MOV #A1, r0    ; immediate: r0 = A1 ( equals address 0)
+	MOV #A3, r2    ; immediate: r0 = A1 ( equals address 0)
+	MOV #77, r1    ; r1=77
+	MOV r1, @r0    ; reg defer [A1]->77
+	ADD r1, (r0)+  ; auto-incr [A1]->77+77, r0=A2 i.e 2
+	ADD (r0)+, -2(r0)    ; idx [A2]->40+40, r0=A3 i.e 4
+	SUB (r2)+, -(r2)     ; [A3]->0, r2=A3
+	ADD -(r0), r0
+	MOV r0, (r0)+
+	HALT
+	.END START 	
