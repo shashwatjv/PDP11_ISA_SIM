@@ -260,7 +260,7 @@ endtask
 task InstructionDecode::double_op();
 
 	dop_t d_ir = inst.IR;
-`INFO($sformatf("%s DOUBLE OP:  SRC: AM:%s, REG:%s  DEST: AM:%s, REG:%s",name,amod_t'(d_ir.smod),register_t'(d_ir.sreg),amod_t'(d_ir.dmod),register_t'(d_ir.dreg)))
+`INFO($sformatf("%s DOUBLE OP: OPCODE: %s SRC: AM:%s, REG:%s  DEST: AM:%s, REG:%s",name,inst.opcode_ex,amod_t'(d_ir.smod),register_t'(d_ir.sreg),amod_t'(d_ir.dmod),register_t'(d_ir.dreg)))
 	if (inst.opcode_ex == SUB) d_ir.sz = word_op;
 	decode_src_am(d_ir.sz,amod_t'(d_ir.smod),d_ir.sreg);
 	decode_dest_am(d_ir.sz,amod_t'(d_ir.dmod),d_ir.dreg);
@@ -271,7 +271,7 @@ endtask
 //dest - has the register number or the destination address depending on write_reg_en and write_mem_en respectively 
 task InstructionDecode::single_op();
 	sop_t s_ir = inst.IR;
-`INFO($sformatf("%s SINGLE OP:  SRC: AM:%s, REG:%s",name,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
+`INFO($sformatf("%s SINGLE OP: OPCODE: %s  SRC: AM:%s, REG:%s",name,inst.opcode_ex,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
 	//assert (!(inst.opcode_ex == JMP) && (s_ir.dmod == REG)) $fatal ("REGISTER MODE ILLEGAL IN JUMP");
 	assert (!((inst.opcode_ex == JMP) && (s_ir.dmod == REG))) else $warning ("REGISTER MODE ILLEGAL IN JUMP");
 	if ((inst.opcode_ex == JMP) && (s_ir.dmod == REG_DEF)) begin //{
@@ -287,7 +287,7 @@ endtask
 task InstructionDecode::branch();
 	brop_t b_ir = inst.IR;
 	inst.offset = {{7{b_ir.ofst[7]}},b_ir.ofst,1'b0};
-`INFO($sformatf("%s BRANCH OP: OFFSET:%o",name, inst.offset))
+`INFO($sformatf("%s BRANCH OP: OPCODE: %s OFFSET:%o",name,inst.opcode_ex,inst.offset))
 endtask
 
 ///////////////////for JSR /////////////////////////
