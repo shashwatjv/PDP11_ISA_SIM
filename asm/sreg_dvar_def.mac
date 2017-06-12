@@ -1,0 +1,45 @@
+;
+;    **************************************
+;    * Simulate various Move instruction 
+;    * for deferred addressing modes at dst op
+;    **************************************
+;
+    .PSECT PTR,ABS
+    .=1000
+A1: .WORD 500
+A2: .WORD 502
+A3: .WORD 504
+A4: .WORD 506
+A5: .WORD 510
+A6: .WORD 512
+A7: .WORD 514
+    .END PTR
+
+;  Array to be indexed
+	.PSECT ARRAY2, ABS
+	.=500
+B1: .WORD 065420
+B2: .WORD 065421
+B3: .WORD 065422
+B4: .WORD 125423
+B5: .WORD 125424
+B6: .WORD 125425
+B7: .WORD 125426
+	.END ARRAY2
+
+; source op varies but destn op is always a reg mode
+
+	.ENABL AMA
+	.PSECT A,ABS
+	.=2000
+START:
+	MOV #A7, SP     ; initialize the ptr array ref, SP=1014
+	MOV @SP, r0     ; r0 = 514
+	MOV #55,r1      ; r1=55
+	MOV r1, @-(SP)  ; [512]->55
+	DEC SP		; decrement SP, programmers resp. to do 2 decs as SP point to words
+	DEC SP		; decrement SP , SP=1010
+	MOV r1,@(SP)+   ; [510]->55, SP=1012
+	MOV r1,@-12(SP) ; [500]->55 SP=1012
+	HALT            ; halt
+	.END START 	

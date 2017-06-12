@@ -1,0 +1,15 @@
+;
+;    **************************************
+;    * REGISTER Moves to check REG to MEM MAP
+;    **************************************
+;
+START:
+	MOV #11, R0
+	MOV #22, R1
+	MOV #33, R2
+	MOV #44, R3
+	MOV #55, R4
+	MOV #66, R5
+	MOV #77, SP
+	HALT
+	.END START 	
