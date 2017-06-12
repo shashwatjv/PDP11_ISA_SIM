@@ -22,7 +22,6 @@ extern function word_t Read (register_t Source);
 extern function void Write(register_t Destination, word_t Data);
 extern function void Examine (register_t Destination); 
 extern function void Examine_PSW (); 
-extern function void Regress ();
 extern function void Print ();
 extern function void SetN(logic);
 extern function void SetZ(logic);
