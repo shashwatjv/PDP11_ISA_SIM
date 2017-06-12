@@ -94,11 +94,11 @@ endclass
 
 function void Execute::IncrementCount();
    ICOUNT+=1;
-   `DEBUG($sformatf("Instructions Executed=%0d", ICOUNT))
+   `DEBUG($sformatf("\t\tInstructions Executed=%0d", ICOUNT))
 endfunction
 
 function void Execute::ExitSim();
-   `INFO($sformatf("ExitSim:: Total Instructions Executed = %0d", ICOUNT))
+   `INFO($sformatf("\t\tExitSim:: Total Instructions Executed = %0d", ICOUNT))
    reg_h.Regress();
    assert (ICOUNT===txn.inst_id);
    //$finish;
@@ -197,13 +197,14 @@ function void Execute::run(ref InstructionTrans t_h);
      SEV : exe_sev(t_h); 
      SEZ : exe_sez(t_h); 
      SEN : exe_sen(t_h); 
-     default  : `DEBUG("Unknown instruction")
+     default  : `DEBUG("\t\tUnknown instruction")
 
    endcase
 	
    // store previous PSW for log/debug
    t_h.new_psw=reg_h.Read(PSW);
 
+`DEBUG($sformatf("\t\tresult : %b : %6o : cy : %b",result,result,cy))
 `DEBUG("\n\n********************************************************************************
                    AFTER EXECUTE: Register File:\n")
 reg_h.Print();
