@@ -15,6 +15,7 @@ Memory mem_h;
 
 function new (Memory mem_h);
 this.mem_h = mem_h;
+Regs[PSW]=0;
 endfunction
 
 extern function word_t Read (register_t Source);

@@ -44,7 +44,7 @@ Authors: Harathi, Khanna, Vinchurkar
 `define R5_MLOC 16'o177712
 `define SP_MLOC 16'o177714
 `define PC_MLOC 16'o177716
-`define PSW_MLOC 16'o177720
+`define PSW_MLOC 16'o177776
 
 // Status Bits
 `define PSW_N 3
