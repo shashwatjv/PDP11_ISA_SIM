@@ -117,7 +117,11 @@ function void Memory::Print (mem_print_t mode); // Print Contents of valid memor
 	$display("printing mem to %s", mode);
 	if (mem.first(idx)) begin
 		do begin
-			msg = $sformatf ("\tMem[%6o] : %3o", idx, mem[idx]); 
+		        if(idx%2) msg = $sformatf ("\tMem[%6o] : %3o", idx, mem[idx]);
+		        else begin
+			   if(mem.exists(idx+1)) msg = $sformatf ("\tMem[%6o] : %3o \t WORD[%6o] : %6o", idx, mem[idx],idx,{mem[idx+1],mem[idx]});
+			   else msg = $sformatf ("\tMem[%6o] : %3o \t WORD[%6o] : ---%3o", idx, mem[idx],idx,mem[idx]);
+			end
 			case (mode)
 			mem_debug: `DEBUG(msg)
 			mem_file:  `FILE_TRACE(mem_cont_f, msg)

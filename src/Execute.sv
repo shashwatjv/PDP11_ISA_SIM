@@ -203,9 +203,11 @@ function void Execute::run(ref InstructionTrans t_h);
 	
    // store previous PSW for log/debug
    t_h.new_psw=reg_h.Read(PSW);
-   `DEBUG("AFTER EXECUTE: Contents of Register File:")
-   reg_h.Print();
 
+`DEBUG("\n\n********************************************************************************
+                   AFTER EXECUTE: Register File:\n")
+reg_h.Print();
+`DEBUG("\n********************************************************************************\n")
    // do exit if decoded halt instruction
    // ExitSim();
 endfunction // run
