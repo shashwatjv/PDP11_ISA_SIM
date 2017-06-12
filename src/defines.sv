@@ -8,7 +8,6 @@ Authors: Harathi, Khanna, Vinchurkar
 `define MEM_TRACE(msg) $fdisplay (mem_trace_f, "%s", msg);
 
 `define DEBUG_MEM_TRACE(msg) $fdisplay (debug_mem_f, "%s", msg);
-`define DEBUG_REG_TRACE(msg) $fdisplay (debug_reg_f, "%s", msg);
 `define LOAD_MEM_TRACE(msg) $fdisplay (load_mem_f, "%s", msg);
 
 `define DEBUG(msg) \

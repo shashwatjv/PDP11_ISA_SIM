@@ -51,7 +51,6 @@ package common_pkg;
 	//integer mem_trace_f, debug_mem_f, load_mem_f, log_f;
 	integer mem_trace_f = $fopen("traces/mem_trace.f", "w");
 	integer debug_mem_f = $fopen("traces/debug_mem_trace.f", "w");
-	integer debug_reg_f = $fopen("traces/debug_reg_trace.f", "w");
 	integer load_mem_f = $fopen("traces/load_mem_trace.f", "w");
 	integer log_f = $fopen("output.log", "w");
 	integer br_f = $fopen("traces/branch_trace.f", "w");
