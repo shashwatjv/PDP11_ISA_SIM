@@ -19,8 +19,30 @@ START:
 	BISB r0, r1
 	MOV #D, SP	
 	MOVB (SP)+, r3
-	MOV #C, SP
-	INC (SP)
+	MOV #C, SP	; SP=2
+	INC (SP)        ; SP=2
+	MOV SP, r5	; r5=2
+	COMB r1
+	INCB -(SP)	; [0]=126, SP=0
+	DECB r5		; r5=1
+	NEGB (r5)	; gives C=1
+	ADCB (r5)
+	SEC
+	SBCB (r5)	; [r5] = 126
+	RORB (r5)
+	RORB (r5)
+	RORB (r5)	; [r5] = 252
+	ROLB (r5)
+	ROLB (r5)
+	ROLB (r5)	; [r5] = 126
+	ASRB (r5)	
+	ASRB (r5)	
+	ASRB (r5)	; [r5] = 12, C-1
+	ASLB (r5)	
+	ASLB (r5)	
+	ASLB (r5)	; [r5] = 120, C-0
+	TSTB (SP)	
+	CLRB (SP)
 	HALT
 	.END START
 
