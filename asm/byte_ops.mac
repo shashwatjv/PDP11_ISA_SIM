@@ -1,0 +1,60 @@
+;
+;    **************************************
+;    * Check BYTE Operations
+;    **************************************
+;
+A:	.BYTE 125
+B:	.BYTE 252
+C:	.BYTE 155
+D:	.BYTE 100
+	
+START:
+	MOVB A, r0
+	MOVB B, r1
+	CMPB r0, r1
+	CMPB r1, r0
+	BITB r0, r1
+	SWAB r0
+	BICB r0, r1
+	BISB r0, r1
+	MOV #D, SP	
+	MOVB (SP)+, r3
+	MOV #C, SP
+	INC (SP)
+	HALT
+	.END START
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	HALT
+	.END START 	
