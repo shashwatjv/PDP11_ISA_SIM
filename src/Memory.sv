@@ -114,7 +114,6 @@ endfunction
 function void Memory::Print (mem_print_t mode); // Print Contents of valid memory locations
 	string msg;
 	mem_addr_t idx;
-	$display("printing mem to %s", mode);
 	if (mem.first(idx)) begin
 		do begin
 			msg = $sformatf ("\tMem[%6o] : %3o", idx, mem[idx]); 
