@@ -1,0 +1,115 @@
+;
+;    **************************************
+;    * Check BYTE Operations
+;    **************************************
+;
+    .PSECT PTR,ABS
+    .=1000
+A1: .WORD 500
+A2: .WORD 501
+A3: .WORD 502
+A4: .WORD 503
+A5: .WORD 504
+A6: .WORD 505
+A7: .WORD 506
+A11: .WORD 510
+A12: .WORD 511
+A13: .WORD 512
+A14: .WORD 513
+A15: .WORD 514
+    .END PTR
+
+;  Array to be indexed
+	.PSECT ARRAY2, ABS
+	.=500
+B1: .BYTE 264
+B2: .BYTE 265
+B3: .BYTE 266
+B4: .BYTE 123
+B5: .BYTE 124
+B6: .BYTE 125
+B7: .BYTE 126
+	.END ARRAY2
+
+A:	.BYTE 125
+B:	.BYTE 252
+C:	.BYTE 155
+D:	.BYTE 100
+
+	.=5000
+	.PSECT PGM, REL
+	; deferred mode check
+START:
+	MOV #B1,SP ; init SP=500
+	MOV #B1,r0 ; pseudo SP, r0=500
+
+	MOVB (SP)+, r1	 ; r1=264, SP=502
+	MOVB (r0)+, r3  ; r3=264, r0=501
+	
+	MOVB (SP)+, r2  ; r2=266, SP=504
+	MOVB (r0)+, r4  ; r4=265, r0=502
+
+	MOVB r1, r5     ; r5=264
+	ADD  r2, r5     ; r5=152
+	MOVB r5, (SP)+  ; [504]=152, SP=506
+
+	INCB r0		; r0=503
+	MOVB r3, r5	; r5=264
+	ADD  r4, r5	; r5=151
+	MOVB r5, (r0)+  ; [503]=151, r0=504
+
+	MOV #A1,SP ; init SP=1000
+	MOV #A1,r0 ; pseudo SP, r0=1000
+
+	MOVB @(SP)+, r1	 ; r1=264, SP=1002
+	MOVB @(r0)+, r3  ; r3=264, r0=1002
+	
+	MOVB @(SP)+, r2  ; r2=265, SP=1004
+	MOVB @(r0)+, r4  ; r4=265, r0=1004
+
+	MOVB r1, r5     ; r5=264
+	ADD  r2, r5     ; r5=151
+	MOVB r5, @(SP)+  ; [502]=151, SP=1006
+
+	ADD #2, r0	; r0=1006
+	MOVB r3, r5	; r5=264
+	ADD  r4, r5	; r5=151
+	MOVB r5, @(r0)+  ; [503]=151, r0=1006
+
+	HALT
+	.END START
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	HALT
+	.END START 	

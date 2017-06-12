@@ -7,7 +7,7 @@ A:	.BYTE 125
 B:	.BYTE 252
 C:	.BYTE 155
 D:	.BYTE 100
-	
+
 START:
 	MOVB A, r0
 	MOVB B, r1
