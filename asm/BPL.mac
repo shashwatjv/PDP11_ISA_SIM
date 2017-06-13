@@ -1,0 +1,29 @@
+
+A:	.WORD 4.
+B:	.WORD 5.
+
+
+;BPL N=0
+
+
+START :
+	SEN
+	SEZ
+	SEV
+	SEC
+	CLC
+	CLV
+	CLZ
+	CLN
+	BPL SKIP1 ;taken 
+FIRE:	HALT
+SKIP1:	SEZ
+	SEN
+	SEV
+	SEC
+	BPL FIRE ; not taken
+	SEV
+	SEN
+	HALT
+	.END	START
+
