@@ -1,0 +1,28 @@
+
+A:	.WORD 4.
+B:	.WORD 5.
+
+
+;BMI N=1
+
+
+START :
+	SEN
+	SEZ
+	SEV
+	SEC
+	CLC
+	CLV
+	CLZ
+	CLN
+	BMI FIRE ;not taken 
+	SEZ
+	SEN
+	SEV
+	SEC
+	BMI SKIP ;  taken
+	HALT
+SKIP:	SEV
+	SEN
+FIRE:	HALT
+	.END	START
