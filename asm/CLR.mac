@@ -1,0 +1,18 @@
+
+A:	.WORD 4.
+B:	.WORD 5.
+
+
+
+START :
+	MOV A,R1
+	MOV B,R2
+	CLZ
+	SEN
+	SEV
+	SEC
+	CLR R1
+	CLR R2
+	HALT
+	.END	START
+
