@@ -8,8 +8,10 @@ C:	.WORD 6
 ;	MOV PC,SP
 ;	TST -(SP)
 ;	DEC SP
+;	MOV #START,SP
 START:	
-	MOV #START,SP
+	MOV PC,SP
+	TST -(SP)
 	
 	MOV #10,R1
 	MOV A,-(SP)
