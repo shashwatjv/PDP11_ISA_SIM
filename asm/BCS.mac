@@ -1,0 +1,28 @@
+
+A:	.WORD 4.
+B:	.WORD 5.
+
+
+;BCS C=1
+
+
+START :
+	SEN
+	SEZ
+	SEV
+	SEC
+	CLC
+	CLV
+	CLZ
+	CLN
+	BCS FIRE ;not taken 
+	SEZ
+	SEN
+	SEV
+	SEC
+	BCS SKIP ;  taken
+	HALT
+SKIP:	SEV
+	SEN
+FIRE:	HALT
+	.END	START
