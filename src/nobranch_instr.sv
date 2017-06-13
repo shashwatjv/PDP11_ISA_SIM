@@ -171,8 +171,8 @@ function void Execute::exe_dec(ref InstructionTrans t_h);
    result = t_h.dest_operand - 1'b1;
    reg_h.SetZ(result === '0);
    reg_h.SetN(result[WSIGN]);
-   // no change to C flag
-   reg_h.SetV(t_h.dest_operand === wop_min);
+   // no change to V flag
+   reg_h.SetC(t_h.dest_operand === wop_min);
    wback(word_op, t_h); // arg: (op_size, xaction_ptr)
 endfunction // exe_dec
 

@@ -271,7 +271,7 @@ endtask
 //dest - has the register number or the destination address depending on write_reg_en and write_mem_en respectively 
 task InstructionDecode::single_op();
 	sop_t s_ir = inst.IR;
-`INFO($sformatf("%s SINGLE OP: OPCODE: %s  SRC: AM:%s, REG:%s",name,inst.opcode_ex,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
+`INFO($sformatf("%s SINGLE OP: OPCODE: %s  DEST: AM:%s, REG:%s",name,inst.opcode_ex,amod_t'(s_ir.dmod),register_t'(s_ir.dreg)))
 	//assert (!(inst.opcode_ex == JMP) && (s_ir.dmod == REG)) $fatal ("REGISTER MODE ILLEGAL IN JUMP");
 	assert (!((inst.opcode_ex == JMP) && (s_ir.dmod == REG))) else $warning ("REGISTER MODE ILLEGAL IN JUMP");
 	if ((inst.opcode_ex == JMP) && (s_ir.dmod == REG_DEF)) begin //{
@@ -300,7 +300,7 @@ task InstructionDecode::subroutine();
 
 	sop_t subr_ir = inst.IR;
 `INFO($sformatf("%s JUMP TO SUBROUTINE : REG_PUSH:%s DEST:AM:%s : REG:%s",name,register_t'(subr_ir.op),amod_t'(subr_ir.dmod),register_t'(subr_ir.dreg)))
-	decode_dest_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
+	decode_dest_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg); //dest is calculated first
 	decode_src_am(word_op,REG,subr_ir.op);
 	//decode_dest_am(subr_ir.sz,amod_t'(subr_ir.dmod),subr_ir.dreg);
 	inst.dest = {{13{1'b0}},subr_ir.op};
