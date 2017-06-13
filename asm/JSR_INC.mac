@@ -1,0 +1,59 @@
+;INC - Z,N,V - affected c - not affected 
+
+
+;-(SP) - push
+;(SP)+ - pop
+
+A:	.WORD 077777  ; V=1
+B:	.WORD 100000  ; N=1 
+C:	.WORD 177777  ; Z=1
+D:	.WORD 077776  ; Z=0,N=0,V=0
+E:	.WORD 100001  ; N=0,Z=0,V=0 
+
+.BLKW 50
+.BLKW 50
+;	MOV PC,SP
+;	TST -(SP)
+;	DEC SP
+;	MOV #START,SP
+
+START:	
+	MOV PC,SP
+	TST -(SP)
+	
+	MOV #0,-(SP)
+	MOV E,-(SP)
+	MOV D,-(SP)
+	MOV C,-(SP)
+	MOV B,-(SP)
+	MOV A,-(SP)
+	MOV #0,-(SP)
+	;JSR R1,SBR1
+	JSR PC,SBR1
+	HALT
+
+SBR1:	
+	MOV (SP)+,R2
+	SEC
+	INC 2(SP)
+	INC 4(SP)
+	INC 6(SP)
+	INC 10(SP)
+	INC 12(SP)
+	MOV 14(SP),R3
+	MOV SP,R1
+	;MOV #3,R5
+	RTS R1
+;	RTS PC
+
+	HALT
+	
+	.END START
+	
+	
+ 
+
+
+
+
+
