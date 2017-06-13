@@ -1,5 +1,5 @@
 IPC?=0
-IFILE ?= src2.ascii
+IFILE ?=../asm/fib.ascii
 REG_DUMP?=0
 all: clean lib compile sim
 
