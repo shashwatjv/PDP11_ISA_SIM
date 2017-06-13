@@ -1,0 +1,43 @@
+;
+;    **************************************
+;    * Simulate various Move instruction 
+;    * DEFERRED addressing modes
+;    **************************************
+;
+;  Create a array of pointers for deferred indexing
+    .PSECT PTR,ABS
+    .=1000
+A1: .WORD 500
+A2: .WORD 502
+A3: .WORD 504
+A4: .WORD 506
+A5: .WORD 510
+A6: .WORD 512
+A7: .WORD 514
+    .END PTR
+
+;  Array to be indexed
+	.PSECT ARRAY2, ABS
+	.=500
+B1: .WORD 065420
+B2: .WORD 065421
+B3: .WORD 065422
+B4: .WORD 125423
+B5: .WORD 125424
+B6: .WORD 125425
+B7: .WORD 125426
+	.END ARRAY2
+
+; source op varies but destn op is always a reg mode
+
+	.ENABL AMA
+	.PSECT A,ABS
+	.=2000
+START:
+	MOV #A7, r4     ; initialize the ptr array ref, SP=1014
+	ADD @#A3, @-(r4) ; [B6]->[B6] + [A3] = 125425+504=126131
+	ADD @#B3, @-(r4) ; [B5]->[B5] + [B3] = 125424+065422=213046
+	HALT           ; halt
+	.END START 	
+
+

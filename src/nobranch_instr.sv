@@ -13,7 +13,8 @@ function void Execute::exe_movb(ref InstructionTrans t_h);
    reg_h.SetN(result[WSIGN]);
    // no change to C flag
    reg_h.SetV('0);
-   wback(byte_op, t_h); // arg: (op_size, xaction_ptr)
+   if(t_h.write_reg_en) wback(word_op, t_h); // arg: (op_size, xaction_ptr)
+   else wback(byte_op, t_h); // arg: (op_size, xaction_ptr)
 endfunction // exe_movb
 
 function void Execute::exe_cmp(ref InstructionTrans t_h);
