@@ -20,9 +20,9 @@ endfunction
 
 extern function word_t Read (register_t Source);
 extern function void Write(register_t Destination, word_t Data);
-extern function void Examine (register_t Destination); 
-extern function void Examine_PSW (); 
-extern function void Print ();
+extern function void Examine (register_t Destination, bit console=0); 
+extern function void Examine_PSW (bit console=0); 
+extern function void Print (bit console=0);
 extern function void SetN(logic);
 extern function void SetZ(logic);
 extern function void SetV(logic);
@@ -57,24 +57,37 @@ Regs[Destination]=Data;
 //`DEBUG($sformatf("\tWriting %6o to %s", Data, Destination))
 endfunction
 
-function void RegisterFile::Examine (register_t Destination); // Print a particular register for debug
+function void RegisterFile::Examine (register_t Destination, bit console=0); // Print a particular register for debug
+if (!console) begin
 `DEBUG($sformatf("\tRegs[%s]: %6o", Destination, Read(Destination)))
+end
+else begin
+$display("\tRegs[%s]: %6o", Destination, Read(Destination));
+end
 endfunction
 
-function void RegisterFile::Examine_PSW();
+function void RegisterFile::Examine_PSW(bit console=0);
+	if (!console)	begin
 `DEBUG($sformatf("\tRegs[%s]: N-%b | Z-%b | V-%b | C-%b", PSW,Regs[PSW][`PSW_N],Regs[PSW][`PSW_Z],Regs[PSW][`PSW_V],Regs[PSW][`PSW_C]))
+end
+
+else begin
+$display("\tRegs[%s]: N-%b | Z-%b | V-%b | C-%b", PSW,Regs[PSW][`PSW_N],Regs[PSW][`PSW_Z],Regs[PSW][`PSW_V],Regs[PSW][`PSW_C]);
+end
 endfunction
 
-function void RegisterFile::Print (); // Print the contents of register file in octal
-Examine (R0);
-Examine (R1);
-Examine (R2);
-Examine (R3);
-Examine (R4);
-Examine (R5);
-Examine (SP);
-Examine (PC);
-Examine_PSW();
+function void RegisterFile::Print (bit console=0); // Print the contents of register file in octal
+begin
+Examine (R0, console);
+Examine (R1, console);
+Examine (R2, console);
+Examine (R3, console);
+Examine (R4, console);
+Examine (R5, console);
+Examine (SP, console);
+Examine (PC, console);
+Examine_PSW(console);
+end
 endfunction
 
 function void RegisterFile::SetN(logic N);

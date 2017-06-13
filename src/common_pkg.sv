@@ -45,7 +45,7 @@ package common_pkg;
 	typedef enum bit {word_op, byte_op} op_size;
 	
 	// FILE IO
-	int debug=1, info=1, console=0, print_reg=0, print_mem=0;
+	int debug=1, info=1, console=0, reg_dump=0, print_mem=0;
 	typedef enum {DATA_READ=0, DATA_WRITE=1, INST_FETCH=2} mem_access_t;
 	typedef enum {mem_debug, mem_file} mem_print_t; 
 	//integer mem_trace_f, debug_mem_f, load_mem_f, log_f;

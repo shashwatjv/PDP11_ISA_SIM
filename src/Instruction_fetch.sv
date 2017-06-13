@@ -29,8 +29,13 @@ itxn_h.IR = mem_h.GetWord (tempPC, .ifetch(1));
 tempPC += 16'o2;
 reg_h.Write(PC, tempPC);
 `DEBUG($sformatf("After fetch stage, value of PC=%6o", tempPC))
-//`DEBUG ("Contents of Register File after fetch:")
-//reg_h.Print();
+
+if(reg_dump) begin
+$display("\n\nFetched IR=%6o", itxn_h.IR);
+$display("Contents of Register File after fetch:");
+reg_h.Print(1);
+end
+
 endfunction
 
 function InstructionTrans InstructionFetch::run();
