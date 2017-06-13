@@ -204,8 +204,8 @@ function void Execute::run(ref InstructionTrans t_h);
    t_h.new_psw=reg_h.Read(PSW);
 
 `DEBUG($sformatf("\t\tresult : %b : %6o : cy : %b",result,result,cy))
-`DEBUG("\n\n********************************************************************************
-                   AFTER EXECUTE: Register File:\n")
+`DEBUG("\n\n********************************************************************************\n")
+`DEBUG("                   AFTER EXECUTE: Register File:\n")
 reg_h.Print();
 `DEBUG("\n********************************************************************************\n")
    // do exit if decoded halt instruction
