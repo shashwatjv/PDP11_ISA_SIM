@@ -1,6 +1,6 @@
 IPC?=0
 IFILE ?= src2.ascii
-
+REG_DUMP?=0
 all: clean lib compile sim
 
 lib:
@@ -11,7 +11,7 @@ lib:
 compile:
 	vlog -mfcu -f file_sv.f -l compile.log
 sim:
-	vsim -c -novopt -do "run -all; quit" +IFILE=$(IFILE)  +IPC=$(IPC) top
+	vsim -c -novopt -do "run -all; quit" +IFILE=$(IFILE)  +IPC=$(IPC) +REG_DUMP=$(REG_DUMP) top
 	
 clean:
 	rm -rf work output.log traces transaction.log
