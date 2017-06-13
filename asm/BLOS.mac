@@ -1,0 +1,40 @@
+
+A:	.WORD 4.
+B:	.WORD 5.
+
+
+;BLOS C | Z = 1
+
+
+START :
+	SEN
+	SEZ
+	SEV
+	SEC
+	CLC
+	CLV
+	CLZ
+	CLN
+	BLOS FIRE ;not taken (0,0) 
+	SEZ
+	SEN
+	SEV
+	BLOS SKIP2;taken (0,1) 
+	HALT
+SKIP2:	SEC
+	CLZ
+	SEN
+	CLV
+	BLOS SKIP3 ;  taken(1,0)
+	HALT
+SKIP3:	SEV
+	SEN
+	SEC
+	SEZ
+	BLOS SKIP1 ; taken (1,1)
+	HALT
+	CLC
+SKIP1:	CLV
+	CLZ
+FIRE:	HALT
+	.END	START
