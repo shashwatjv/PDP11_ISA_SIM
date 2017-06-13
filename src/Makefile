@@ -1,7 +1,8 @@
 IPC?=0
 IFILE ?=../asm/fib.ascii
 REG_DUMP?=0
-all: clean lib compile sim
+
+all: lib compile sim
 
 lib:
 	vlib work
@@ -14,5 +15,5 @@ sim:
 	vsim -c -novopt -do "run -all; quit" +IFILE=$(IFILE)  +IPC=$(IPC) +REG_DUMP=$(REG_DUMP) top
 	
 clean:
-	rm -rf work output.log traces transaction.log
+	rm -rf work output.log traces transaction.log compile.log transcript
 
