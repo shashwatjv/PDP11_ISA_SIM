@@ -14,6 +14,7 @@ PDP11_20 proc_h;
 
 initial
 begin
+if ($value$plusargs("REG_DUMP=%d",reg_dump));
 proc_h = new();
 proc_h.run();
 end
